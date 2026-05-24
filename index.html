@@ -1,0 +1,2278 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spuren im Moor – Lebensgeschichten aus Lager III Brual-Rhede</title>
+<style>
+/* ===== GRUNDVARIABLEN ===== */
+:root {
+  --parchment:   #f0ebe0;
+  --parchment2:  #faf7f2;
+  --border:      #c4a882;
+  --border-dark: #8a6a40;
+  --brown-deep:  #2a1408;
+  --brown-mid:   #5a3518;
+  --brown-acc:   #7a4520;
+  --rust:        #8b4513;
+  --rust-hover:  #6b2d00;
+  --text:        #1e1208;
+  --text-muted:  #6a4a28;
+  --green-sure:  #2d5a00;
+  --yellow-prob: #8a6800;
+  --red-unsure:  #7a1a00;
+  --fs-base: 1rem;
+}
+.beamer { --fs-base: 1.28rem; }
+
+/* ===== RESET ===== */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Palatino Linotype','Palatino',Georgia,serif;
+  background:var(--parchment);
+  color:var(--text);
+  font-size:var(--fs-base);
+  line-height:1.7;
+  min-height:100vh;
+}
+
+/* ===== KOPFZEILE ===== */
+.site-header {
+  background:var(--brown-deep);
+  color:#e8d5b0;
+  padding:10px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  position:sticky;
+  top:0;
+  z-index:50;
+  border-bottom:3px solid var(--rust);
+}
+.site-header .logo {
+  font-size:.95rem;
+  letter-spacing:.5px;
+  opacity:.8;
+  white-space:nowrap;
+}
+.site-header .logo strong { color:#ffd080; }
+
+/* Raumindikator */
+.room-dots {
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.room-dots .dot {
+  width:28px; height:28px;
+  border-radius:50%;
+  border:2px solid var(--border-dark);
+  background:transparent;
+  color:var(--border-dark);
+  font-size:.72rem;
+  font-weight:bold;
+  font-family:Arial,sans-serif;
+  display:flex; align-items:center; justify-content:center;
+  cursor:default;
+  transition:all .2s;
+}
+.room-dots .dot.done   { background:var(--rust); border-color:var(--rust); color:#fff; cursor:pointer; }
+.room-dots .dot.active { background:#ffd080; border-color:#ffd080; color:var(--brown-deep); }
+
+/* Beamer-Knopf */
+.btn-beamer {
+  background:none;
+  border:1px solid var(--border-dark);
+  color:#c8a870;
+  padding:5px 12px;
+  border-radius:4px;
+  font-size:.78rem;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:all .2s;
+  font-family:Arial,sans-serif;
+}
+.btn-beamer:hover { background:var(--rust); color:#fff; border-color:var(--rust); }
+
+/* ===== SCREENS ===== */
+.screen { display:none; }
+.screen.active { display:block; }
+.screen-inner {
+  max-width:860px;
+  margin:0 auto;
+  padding:36px 24px 60px;
+}
+
+/* ===== EINLEITUNGSSEITE ===== */
+#intro .cover {
+  text-align:center;
+  padding:40px 20px 30px;
+  border-bottom:2px solid var(--border);
+  margin-bottom:32px;
+}
+#intro .cover .schule {
+  font-size:.85rem;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--text-muted);
+  margin-bottom:10px;
+  font-family:Arial,sans-serif;
+}
+#intro .cover h1 {
+  font-size:clamp(2rem,5vw,3.2rem);
+  color:var(--brown-deep);
+  line-height:1.15;
+  margin-bottom:8px;
+}
+#intro .cover h1 em {
+  display:block;
+  font-size:55%;
+  font-style:normal;
+  color:var(--rust);
+  letter-spacing:1px;
+  margin-top:6px;
+}
+#intro .cover .untertitel {
+  color:var(--text-muted);
+  font-style:italic;
+  font-size:1.05rem;
+  margin-top:10px;
+}
+#intro .cover .ornament { color:var(--border); margin:16px 0; letter-spacing:6px; }
+
+.intro-box {
+  background:var(--parchment2);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:20px 24px;
+  margin-bottom:20px;
+}
+.intro-box h3 {
+  color:var(--rust);
+  font-size:1rem;
+  margin-bottom:8px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  font-family:Arial,sans-serif;
+}
+.intro-box p { color:var(--text-muted); font-size:.92rem; }
+
+.intro-hinweis {
+  background:#f5f0e5;
+  border-left:4px solid var(--rust);
+  padding:14px 18px;
+  margin-bottom:24px;
+  font-size:.9rem;
+  color:var(--text-muted);
+}
+.intro-hinweis strong { color:var(--brown-mid); }
+
+.hilfekarte {
+  background: #fffaf2;
+  border: 1px dashed var(--border-dark);
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin: 14px 0;
+  color: var(--text-muted);
+}
+.hilfekarte summary {
+  cursor: pointer;
+  color: var(--rust);
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  font-size: .86rem;
+}
+.hilfekarte p, .hilfekarte ul { font-size: .88rem; margin-top: 8px; }
+.mini-impuls {
+  background: #f5f0e5;
+  border-left: 3px solid var(--rust);
+  color: var(--text-muted);
+  font-size: .84rem;
+  padding: 8px 10px;
+  margin-top: 10px;
+  font-family: Arial, sans-serif;
+}
+.quellen-erklaerung {
+  background: #f8f3ea;
+  border-left: 4px solid var(--brown-acc);
+}
+.erwartung-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: .86rem;
+}
+.erwartung-table th, .erwartung-table td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  vertical-align: top;
+  text-align: left;
+}
+.erwartung-table th { background: #efe1ce; color: var(--brown-deep); }
+.datenschutz-hinweis {
+  font-size: .84rem;
+  color: var(--text-muted);
+  background: #f5f0e5;
+  border-left: 4px solid var(--border-dark);
+  padding: 10px 12px;
+  margin-top: 12px;
+}
+
+
+/* ===== TYPOGRAFIE ALLGEMEIN ===== */
+h2.raum-titel {
+  color:var(--brown-deep);
+  font-size:clamp(1.5rem,4vw,2.1rem);
+  margin-bottom:6px;
+  line-height:1.2;
+}
+.leitfrage {
+  color:var(--rust);
+  font-style:italic;
+  font-size:1.05rem;
+  margin-bottom:24px;
+  padding-bottom:16px;
+  border-bottom:1px solid var(--border);
+}
+h3.abschnitt {
+  color:var(--rust);
+  font-size:1.1rem;
+  margin:28px 0 10px;
+  padding-bottom:5px;
+  border-bottom:1px solid var(--border);
+}
+p { margin-bottom:14px; }
+p:last-child { margin-bottom:0; }
+
+/* ===== INFOKASTEN ===== */
+.infokasten {
+  background:var(--parchment2);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:18px 22px;
+  margin:20px 0;
+}
+.infokasten.quelle {
+  border-left:4px solid var(--brown-acc);
+  background:#f8f3ea;
+}
+.quelle-label {
+  font-size:.75rem;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--text-muted);
+  font-family:Arial,sans-serif;
+  margin-bottom:6px;
+}
+
+/* ===== AUFGABEN ===== */
+.aufgabe {
+  background:#faf5ec;
+  border:2px solid var(--border);
+  border-radius:8px;
+  padding:22px 24px;
+  margin:24px 0;
+}
+.aufgabe-label {
+  font-size:.78rem;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  color:var(--text-muted);
+  font-family:Arial,sans-serif;
+  margin-bottom:12px;
+}
+.aufgabe-frage {
+  font-size:1rem;
+  color:var(--brown-deep);
+  margin-bottom:16px;
+  font-style:italic;
+}
+
+/* Begriff-Kacheln */
+.begriffe-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:12px;
+  margin-top:8px;
+}
+.begriff-card {
+  background:var(--parchment2);
+  border:2px solid var(--border);
+  border-radius:6px;
+  padding:12px 14px;
+  cursor:pointer;
+  transition:all .2s;
+}
+.begriff-card:hover { border-color:var(--rust); background:#f5ede0; }
+.begriff-card .term {
+  font-weight:bold;
+  color:var(--rust);
+  font-size:.95rem;
+  margin-bottom:0;
+}
+.begriff-card .def {
+  font-size:.85rem;
+  color:var(--text-muted);
+  margin-top:8px;
+  display:none;
+  line-height:1.55;
+}
+.begriff-card.open .def { display:block; }
+.begriff-card.open { border-color:var(--rust); background:#f0e8d8; }
+.begriff-card .toggle-hint {
+  font-size:.72rem;
+  color:var(--border-dark);
+  margin-top:6px;
+  font-family:Arial,sans-serif;
+}
+
+/* Timeline */
+.timeline { margin:16px 0; }
+.tl-event {
+  display:flex;
+  gap:16px;
+  margin-bottom:0;
+  cursor:pointer;
+}
+.tl-left {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  flex-shrink:0;
+  width:60px;
+}
+.tl-year {
+  background:var(--rust);
+  color:#fff;
+  font-weight:bold;
+  font-size:.85rem;
+  padding:4px 8px;
+  border-radius:4px;
+  font-family:Arial,sans-serif;
+  white-space:nowrap;
+}
+.tl-line {
+  width:2px;
+  flex:1;
+  background:var(--border);
+  min-height:24px;
+  margin-top:4px;
+}
+.tl-event:last-child .tl-line { display:none; }
+.tl-right {
+  padding:4px 0 28px;
+  flex:1;
+}
+.tl-title {
+  font-weight:bold;
+  color:var(--brown-deep);
+  margin-bottom:4px;
+  font-size:.98rem;
+}
+.tl-text {
+  font-size:.88rem;
+  color:var(--text-muted);
+  display:none;
+  line-height:1.6;
+  margin-top:6px;
+}
+.tl-event.open .tl-text { display:block; }
+.tl-event.open .tl-year { background:var(--brown-deep); }
+.tl-hint { font-size:.72rem; color:var(--border-dark); font-family:Arial,sans-serif; }
+
+/* ===== BIOGRAFIEN ===== */
+.bio-chooser {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:16px;
+  margin:20px 0;
+}
+.bio-card {
+  background:var(--parchment2);
+  border:2px solid var(--border);
+  border-radius:8px;
+  padding:20px;
+  cursor:pointer;
+  transition:all .2s;
+  text-align:center;
+}
+.bio-card:hover { border-color:var(--rust); transform:translateY(-2px); box-shadow:0 4px 16px rgba(42,20,8,.1); }
+.bio-card.chosen { border-color:var(--rust); background:#f0e0cc; }
+.bio-card .bio-name { font-weight:bold; color:var(--brown-deep); font-size:1.05rem; margin-bottom:4px; }
+.bio-card .bio-data { font-size:.82rem; color:var(--text-muted); }
+.bio-card .bio-fokus {
+  margin-top:10px; font-size:.8rem;
+  background:var(--rust); color:#fff;
+  padding:3px 10px; border-radius:12px;
+  display:inline-block; font-family:Arial,sans-serif;
+}
+
+/* Biografie-Inhalt */
+.bio-content { display:none; }
+.bio-content.active { display:block; }
+
+.bio-fragment {
+  margin-bottom:0;
+}
+.bio-fragment .fragment-text {
+  background:var(--parchment2);
+  border-left:3px solid var(--border);
+  padding:14px 18px;
+  margin-bottom:12px;
+  font-size:.95rem;
+  line-height:1.75;
+}
+.bio-fragment .fragment-text.hidden { display:none; }
+.btn-mehr {
+  background:none;
+  border:1px solid var(--border-dark);
+  color:var(--rust);
+  padding:7px 18px;
+  border-radius:4px;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:.88rem;
+  transition:all .2s;
+  margin-bottom:16px;
+}
+.btn-mehr:hover { background:var(--rust); color:#fff; border-color:var(--rust); }
+.btn-mehr:disabled { opacity:.4; cursor:default; }
+
+/* Biografie-Karte */
+.bio-karte {
+  background:#faf5ec;
+  border:2px solid var(--border);
+  border-radius:8px;
+  padding:24px;
+  margin-top:28px;
+}
+.bio-karte h3 { color:var(--rust); margin-bottom:16px; font-size:1rem; text-transform:uppercase; letter-spacing:1px; font-family:Arial,sans-serif; }
+.karte-feld { margin-bottom:16px; }
+.karte-feld label { display:block; font-size:.82rem; color:var(--text-muted); font-family:Arial,sans-serif; text-transform:uppercase; letter-spacing:.5px; margin-bottom:5px; }
+.karte-feld input, .karte-feld textarea {
+  width:100%;
+  background:var(--parchment);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:9px 12px;
+  font-family:inherit;
+  font-size:.92rem;
+  color:var(--text);
+  resize:vertical;
+  transition:border-color .2s;
+}
+.karte-feld input:focus, .karte-feld textarea:focus {
+  outline:none;
+  border-color:var(--rust);
+}
+.karte-feld textarea { min-height:80px; }
+.karte-grid { display:grid; grid-template-columns:1fr 1fr; gap:0 16px; }
+
+/* ===== QUELLENAMPEL ===== */
+.qa-item {
+  background:var(--parchment2);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:16px 18px;
+  margin-bottom:12px;
+}
+.qa-aussage {
+  font-style:italic;
+  color:var(--brown-deep);
+  margin-bottom:12px;
+  font-size:.95rem;
+  line-height:1.6;
+}
+.qa-aussage::before { content:'\201E'; color:var(--rust); }
+.qa-aussage::after  { content:'\201C'; color:var(--rust); }
+.qa-buttons { display:flex; gap:8px; flex-wrap:wrap; }
+.qa-btn {
+  border:2px solid var(--border);
+  background:none;
+  border-radius:5px;
+  padding:7px 14px;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:.85rem;
+  transition:all .2s;
+  color:var(--text-muted);
+}
+.qa-btn:hover { border-color:var(--rust); color:var(--rust); }
+.qa-btn.gewählt-grün  { background:rgba(45,90,0,.15); border-color:var(--green-sure); color:var(--green-sure); font-weight:bold; }
+.qa-btn.gewählt-gelb  { background:rgba(138,104,0,.12); border-color:var(--yellow-prob); color:var(--yellow-prob); font-weight:bold; }
+.qa-btn.gewählt-rot   { background:rgba(122,26,0,.12); border-color:var(--red-unsure); color:var(--red-unsure); font-weight:bold; }
+.qa-ergebnis {
+  margin-top:10px;
+  font-size:.82rem;
+  color:var(--text-muted);
+  display:none;
+  border-top:1px solid var(--border);
+  padding-top:8px;
+  line-height:1.55;
+}
+.qa-item.bewertet .qa-ergebnis { display:block; }
+
+/* ===== REFLEXION ===== */
+.reflex-block {
+  margin-bottom:22px;
+}
+.reflex-block .reflex-prompt {
+  color:var(--rust);
+  font-style:italic;
+  margin-bottom:8px;
+  font-size:1rem;
+}
+.reflex-block textarea {
+  width:100%;
+  background:var(--parchment);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:10px 13px;
+  font-family:inherit;
+  font-size:.92rem;
+  color:var(--text);
+  min-height:90px;
+  resize:vertical;
+  transition:border-color .2s;
+}
+.reflex-block textarea:focus { outline:none; border-color:var(--rust); }
+
+/* Gedenkbaustein */
+.gedenkbaustein {
+  background:var(--brown-deep);
+  color:#e8d5b0;
+  border-radius:8px;
+  padding:24px 28px;
+  margin:24px 0;
+}
+.gedenkbaustein h3 { color:#ffd080; margin-bottom:12px; font-size:1rem; }
+.gedenkbaustein textarea {
+  width:100%;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(200,168,112,.4);
+  border-radius:4px;
+  padding:10px 13px;
+  font-family:inherit;
+  font-size:.95rem;
+  color:#e8d5b0;
+  min-height:80px;
+  resize:vertical;
+}
+.gedenkbaustein textarea::placeholder { color:rgba(200,168,112,.5); }
+.gedenkbaustein textarea:focus { outline:none; border-color:#ffd080; }
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+  background:var(--rust);
+  color:#fff;
+  border:2px solid var(--rust);
+  border-radius:5px;
+  padding:11px 28px;
+  font-family:inherit;
+  font-size:1rem;
+  cursor:pointer;
+  transition:all .2s;
+  letter-spacing:.5px;
+}
+.btn-primary:hover { background:var(--rust-hover); border-color:var(--rust-hover); }
+.btn-primary.large { padding:14px 36px; font-size:1.05rem; }
+
+.btn-secondary {
+  background:none;
+  color:var(--rust);
+  border:2px solid var(--border);
+  border-radius:5px;
+  padding:11px 24px;
+  font-family:inherit;
+  font-size:1rem;
+  cursor:pointer;
+  transition:all .2s;
+}
+.btn-secondary:hover { border-color:var(--rust); }
+
+.nav-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:40px;
+  padding-top:20px;
+  border-top:1px solid var(--border);
+  gap:12px;
+  flex-wrap:wrap;
+}
+.nav-row .spacer { flex:1; }
+
+/* ===== DRUCK ===== */
+.btn-druck {
+  background:var(--brown-deep);
+  color:#ffd080;
+  border:2px solid var(--brown-deep);
+  border-radius:5px;
+  padding:11px 24px;
+  font-family:inherit;
+  font-size:1rem;
+  cursor:pointer;
+  transition:all .2s;
+}
+.btn-druck:hover { background:var(--rust); border-color:var(--rust); color:#fff; }
+
+/* ===== EINORDNUNGSAUFGABE (Raum 1) ===== */
+.einordnung-item {
+  background:var(--parchment2);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:13px 16px;
+  margin-bottom:10px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.einordnung-aussage {
+  font-style:italic;
+  color:var(--brown-deep);
+  font-size:.93rem;
+  line-height:1.55;
+}
+.einordnung-aussage::before { content:'\201E'; color:var(--rust); }
+.einordnung-aussage::after  { content:'\201C'; color:var(--rust); }
+.einordnung-btns { display:flex; gap:8px; flex-wrap:wrap; }
+.einordnung-btn {
+  border:2px solid var(--border);
+  background:none;
+  border-radius:5px;
+  padding:6px 14px;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:.82rem;
+  color:var(--text-muted);
+  transition:all .18s;
+}
+.einordnung-btn:hover { border-color:var(--rust); color:var(--rust); }
+.einordnung-btn.gewaehlt { background:var(--rust); border-color:var(--rust); color:#fff; font-weight:bold; }
+.einordnung-btn.richtig  { background:var(--green-sure); border-color:var(--green-sure); color:#fff; }
+.einordnung-btn.falsch   { background:var(--red-unsure); border-color:var(--red-unsure); color:#fff; }
+.einordnung-feedback { font-size:.82rem; color:var(--text-muted); display:none; margin-top:4px; line-height:1.5; }
+.einordnung-item.geprueft .einordnung-feedback { display:block; }
+.btn-auswerten {
+  margin-top:14px;
+  background:var(--brown-mid);
+  color:#fff;
+  border:2px solid var(--brown-mid);
+  border-radius:5px;
+  padding:9px 22px;
+  font-family:inherit;
+  font-size:.9rem;
+  cursor:pointer;
+  transition:all .2s;
+}
+.btn-auswerten:hover { background:var(--rust); border-color:var(--rust); }
+
+/* ===== AUDIO-BUTTON ===== */
+.btn-audio {
+  background: none;
+  border: 1px solid var(--border-dark);
+  border-radius: 4px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: .72rem;
+  font-family: Arial, sans-serif;
+  padding: 2px 9px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all .2s;
+  vertical-align: middle;
+  white-space: nowrap;
+  line-height: 1.8;
+}
+.btn-audio:hover { border-color: var(--rust); color: var(--rust); }
+.btn-audio.playing { background: var(--rust); color: #fff; border-color: var(--rust); }
+.audio-zeile { text-align: right; margin: 6px 0 2px; }
+@media print { .btn-audio, .audio-zeile, .lehrerlink { display: none !important; } }
+
+/* ===== BILDER UND LESEKÄSTEN ===== */
+.lese-kasten {
+  background: var(--parchment2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 18px;
+  margin: 18px 0;
+}
+.lese-kasten .btn-audio { float: right; margin-left: 12px; margin-bottom: 6px; }
+.bildblock {
+  margin: 22px 0;
+  background: var(--parchment2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+}
+.bildblock img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 5px;
+  filter: sepia(.08) contrast(.98);
+}
+.bildblock figcaption {
+  font-size: .78rem;
+  color: var(--text-muted);
+  font-family: Arial, sans-serif;
+  line-height: 1.45;
+  margin-top: 8px;
+}
+
+.bildquelle {
+  display:block;
+  margin-top:5px;
+  color:#7a5830;
+  font-size:.74rem;
+  line-height:1.35;
+}
+.bildquelle strong { color:var(--brown-mid); }
+.lehrerlink {
+  color:#c8a870;
+  text-decoration:none;
+  border:1px solid var(--border-dark);
+  border-radius:4px;
+  padding:5px 10px;
+  font-size:.78rem;
+  font-family:Arial,sans-serif;
+  white-space:nowrap;
+}
+.lehrerlink:hover { background:var(--rust); color:#fff; border-color:var(--rust); }
+.mini-impuls textarea {
+  width:100%;
+  min-height:62px;
+  margin-top:7px;
+  background:var(--parchment);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:9px 11px;
+  font-family:inherit;
+  font-size:.9rem;
+  color:var(--text);
+  resize:vertical;
+}
+.note-print-block {
+  border:1px solid #c4a882;
+  border-radius:4px;
+  padding:8px;
+  margin:6px 0 12px;
+  white-space:pre-wrap;
+}
+.bildgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin: 22px 0;
+}
+.bildgrid .bildblock { margin: 0; }
+@media print { .bildblock { break-inside: avoid; } }
+.bildgrid.bildstack { grid-template-columns: 1fr; }
+.bildgrid.bildstack .bildblock img { max-height: none; }
+.mapbox {
+  margin: 22px 0;
+  background: var(--parchment2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+}
+.mapbox iframe {
+  width: 100%;
+  height: 430px;
+  border: 0;
+  border-radius: 5px;
+  display: block;
+  background: #eee;
+}
+.mapbox figcaption, .mapbox .map-caption {
+  font-size: .78rem;
+  color: var(--text-muted);
+  font-family: Arial, sans-serif;
+  line-height: 1.45;
+  margin-top: 8px;
+}
+.map-actions { margin-top: 8px; font-family: Arial, sans-serif; font-size: .78rem; }
+.map-actions a { color: var(--rust); }
+@media print { .mapbox iframe, .map-actions { display: none !important; } }
+
+
+
+/* ===== QUELLENHINWEIS ===== */
+.quellenhinweis {
+  font-size:.78rem;
+  color:var(--text-muted);
+  border-top:1px solid var(--border);
+  padding-top:12px;
+  margin-top:20px;
+  line-height:1.55;
+  font-family:Arial,sans-serif;
+}
+
+/* ===== CHIP / BADGE ===== */
+.chip {
+  display:inline-block;
+  background:var(--parchment2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:3px 10px;
+  font-size:.75rem;
+  color:var(--text-muted);
+  font-family:Arial,sans-serif;
+  margin-right:6px;
+  margin-bottom:6px;
+}
+
+
+
+/* ===== UNTERRICHTSSTEUERUNG UND QUELLENKOMPETENZ ===== */
+.aufgaben-badge {
+  display:inline-block;
+  margin-left:8px;
+  padding:2px 8px;
+  border-radius:999px;
+  border:1px solid var(--border-dark);
+  font-size:.68rem;
+  font-family:Arial,sans-serif;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+  vertical-align:middle;
+}
+.aufgaben-badge.pflicht { background:var(--rust); color:#fff; border-color:var(--rust); }
+.aufgaben-badge.vertiefung { background:var(--parchment2); color:var(--rust); }
+.checkliste {
+  background:#faf5ec;
+  border:2px solid var(--border);
+  border-radius:8px;
+  padding:18px 22px;
+  margin:26px 0;
+}
+.checkliste h3 { color:var(--rust); margin-bottom:10px; font-size:1rem; text-transform:uppercase; letter-spacing:1px; font-family:Arial,sans-serif; }
+.checkliste label { display:block; margin:8px 0; color:var(--brown-deep); }
+.checkliste input { margin-right:8px; transform:scale(1.15); }
+.quellen-label-bild {
+  position:absolute;
+  top:18px;
+  left:18px;
+  background:rgba(42,20,8,.86);
+  color:#ffd080;
+  border:1px solid rgba(255,208,128,.45);
+  border-radius:999px;
+  padding:4px 10px;
+  font-family:Arial,sans-serif;
+  font-size:.72rem;
+  font-weight:bold;
+  letter-spacing:.4px;
+  z-index:2;
+}
+.erinnerungsformen {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:8px;
+  margin:12px 0 16px;
+}
+.erinnerungsformen label {
+  border:1px solid rgba(200,168,112,.45);
+  border-radius:6px;
+  padding:8px 10px;
+  color:#e8d5b0;
+  cursor:pointer;
+}
+.erinnerungsformen input { margin-right:6px; }
+.selbstcheck {
+  background:var(--parchment2);
+  border:2px solid var(--border);
+  border-radius:8px;
+  padding:18px 22px;
+  margin:24px 0;
+}
+.selbstcheck h3 { color:var(--rust); margin-bottom:10px; }
+.selbstcheck label { display:block; margin:8px 0; }
+.btn-print-bio { margin-top:8px; }
+@media print {
+  .aufgaben-badge, .quellen-label-bild, .btn-print-bio { display:none !important; }
+}
+
+/* ===== DRUCKANSICHT ===== */
+@media print {
+  .site-header, .nav-row, .btn-primary, .btn-secondary, .btn-druck,
+  .bio-chooser, .btn-mehr, .begriffe-grid .toggle-hint,
+  .qa-buttons { display:none !important; }
+  body { background:#fff; color:#000; font-size:11pt; }
+  .screen { display:block !important; }
+  .bio-content { display:block !important; }
+  .fragment-text { display:block !important; }
+  .def { display:block !important; }
+  .tl-text { display:block !important; }
+  .qa-ergebnis { display:block !important; }
+  h2.raum-titel { page-break-before:always; }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:600px) {
+  .lehrerlink { width:100%; text-align:center; order:5; }
+  .karte-grid { grid-template-columns:1fr; }
+  .bio-chooser { grid-template-columns:1fr; }
+  .begriffe-grid { grid-template-columns:1fr; }
+  .screen-inner { padding:24px 16px 48px; }
+}
+
+
+/* ===== MOBILE UND ZUGÄNGLICHKEIT: FEINSCHLIFF ===== */
+.room-status {
+  color:#ffd080;
+  font-family:Arial,sans-serif;
+  font-size:.82rem;
+  border:1px solid var(--border-dark);
+  border-radius:999px;
+  padding:4px 10px;
+  white-space:nowrap;
+}
+.lehrkraft-hinweis { border-left:4px solid var(--brown-acc); }
+.raum3-hinweis { border-left:4px solid var(--rust); }
+.btn-audio {
+  min-height:34px;
+  padding:5px 12px;
+  font-size:.82rem;
+}
+.bildblock { position:relative; }
+.bildblock img { cursor: zoom-in; }
+.bild-actions {
+  display:flex;
+  justify-content:flex-end;
+  margin-top:8px;
+}
+.btn-img-zoom {
+  background:none;
+  border:1px solid var(--border-dark);
+  color:var(--rust);
+  border-radius:4px;
+  padding:6px 12px;
+  font-family:Arial,sans-serif;
+  font-size:.78rem;
+  cursor:pointer;
+}
+.btn-img-zoom:hover { background:var(--rust); color:#fff; border-color:var(--rust); }
+.img-modal {
+  position:fixed;
+  inset:0;
+  background:rgba(20,12,6,.86);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+  padding:18px;
+}
+.img-modal.open { display:flex; }
+.img-modal-inner {
+  max-width:min(1200px, 96vw);
+  max-height:92vh;
+  background:var(--parchment2);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:12px;
+  overflow:auto;
+}
+.img-modal img {
+  max-width:100%;
+  height:auto;
+  display:block;
+  border-radius:5px;
+}
+.img-modal-caption {
+  font-family:Arial,sans-serif;
+  color:var(--text-muted);
+  font-size:.85rem;
+  margin-top:8px;
+}
+.img-modal-close {
+  position:fixed;
+  top:12px;
+  right:12px;
+  background:#fff;
+  color:var(--brown-deep);
+  border:2px solid var(--border);
+  border-radius:999px;
+  width:44px;
+  height:44px;
+  font-size:1.35rem;
+  cursor:pointer;
+}
+@media (max-width:700px) {
+  .site-header {
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:center;
+    padding:8px 12px;
+    gap:8px;
+  }
+  .site-header .logo {
+    font-size:.82rem;
+    white-space:normal;
+    line-height:1.25;
+  }
+  .room-status {
+    grid-column:1 / -1;
+    justify-self:start;
+    font-size:.78rem;
+    padding:3px 9px;
+  }
+  .room-dots {
+    grid-column:1 / -1;
+    gap:6px;
+    overflow-x:auto;
+    padding-bottom:2px;
+  }
+  .room-dots .dot { width:30px; height:30px; flex:0 0 30px; }
+  .btn-beamer {
+    font-size:.72rem;
+    padding:5px 8px;
+  }
+  .screen-inner { padding:22px 14px 42px; }
+  .cover { padding-top:18px !important; }
+  .bildblock { padding:8px; margin:16px 0; }
+  .bildblock figcaption { font-size:.8rem; }
+  .btn-img-zoom, .btn-audio { min-height:40px; font-size:.86rem; }
+  .lese-kasten .btn-audio { float:none; margin:0 0 10px 0; }
+  .nav-row { flex-direction:column; align-items:stretch; }
+  .nav-row .spacer { display:none; }
+  .nav-row button { width:100%; }
+  .karte-feld textarea, .reflex-block textarea { min-height:110px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- KOPFZEILE -->
+<header class="site-header">
+  <div class="logo"><strong>Spuren im Moor</strong> · Lager III Brual-Rhede</div>
+  <div class="room-status" id="roomStatus">Einführung</div>
+  <div class="room-dots">
+    <div class="dot active" id="dot0" title="Einführung">↩</div>
+    <div class="dot" id="dot1" title="Raum 1: Der Ort">1</div>
+    <div class="dot" id="dot2" title="Raum 2: Das System">2</div>
+    <div class="dot" id="dot3" title="Raum 3: Biografie">3</div>
+    <div class="dot" id="dot4" title="Raum 4: Alltag">4</div>
+    <div class="dot" id="dot5" title="Raum 5: Erinnerung">5</div>
+  </div>
+  <a class="lehrerlink" href="lehrerhandreichung.html" title="Lehrerhandreichung öffnen">Lehrerhandreichung</a>
+  <button class="btn-beamer" onclick="toggleBeamer()" id="beamerBtn">📽 Präsentationsmodus</button>
+</header>
+
+<!-- ======================================================
+     INTRO
+====================================================== -->
+<div id="s-intro" class="screen active">
+<div class="screen-inner">
+  <div class="cover">
+    <div class="schule">Ludgerusschule Rhede (Ems) · Projekt Lager 3</div>
+    <h1>Spuren im Moor
+      <em>Lebensgeschichten aus Lager III Brual-Rhede</em>
+    </h1>
+    <div class="ornament">— · —</div>
+    <div class="untertitel">Eine digitale Erinnerungsreise · Jahrgang 8/9</div>
+  </div>
+
+
+
+  <figure class="bildblock">
+    <img loading="lazy" src="assets/img/lager-iii-brual-rhede.jpg" alt="Historische Aufnahme des Lagergeländes Lager III Brual-Rhede mit Baracken und Wegen">
+    <figcaption>Historische Aufnahme des Lagergeländes Lager III Brual-Rhede.<span class="bildquelle"><strong>Bildnachweis:</strong> Ludgerusschule Rhede, Projekt Lager 3; Bilderseite: „Quelle: Privatsammlung Albert Vinke“. Die Einzelherkunft der NS-zeitlichen Aufnahme ist vor Weiterverwendung zu prüfen.</span></figcaption>
+  </figure>
+
+  <div class="intro-box">
+    <h3>Was dich erwartet <button class="btn-audio" onclick="playAudio(1,this)">🔊 Vorlesen</button></h3>
+    <p>Du betrittst ein digitales Archivzimmer. Darin liegen Fragmente: Aktenauszüge, Biografie­stücke, historische Informationen, Reflexions­fragen. Deine Aufgabe lautet: <strong>Rekonstruiere eine Lebensgeschichte. Finde heraus, was die Quellen zeigen, was offenbleibt und woran erinnert werden muss.</strong></p>
+  </div>
+
+  <div class="intro-box">
+    <h3>Fünf Räume</h3>
+    <p>
+      <span class="chip">1 · Der Ort</span>
+      <span class="chip">2 · Das System</span>
+      <span class="chip">3 · Eine Biografie</span>
+      <span class="chip">4 · Arbeit &amp; Alltag</span>
+      <span class="chip">5 · Erinnerung heute</span>
+      <br>Dauer: ca. 60–75 Minuten. Deine Eingaben werden im Browser gespeichert und können am Ende ausgedruckt werden.<br><strong>Wichtig:</strong> Das Ausfüllen der Biografie-Karte in Raum 3 ist das Herzstück dieser Lerneinheit. Plane dafür bewusst Zeit ein.
+    </p>
+  </div>
+
+  <div class="intro-box lehrkraft-hinweis">
+    <h3>Hinweis für Lehrkräfte</h3>
+    <p>Für eine 60–75-Minuten-Einheit empfiehlt sich: Raum 1 und 2 zügig bearbeiten, Raum 3 deutlich länger einplanen und die Biografie-Karte als zentrales Arbeitsergebnis sichern. Raum 5 sollte als gemeinsames Nachgespräch abgeschlossen werden.</p>
+    <details class="hilfekarte">
+      <summary>Vorschlag für das Einführungsgespräch</summary>
+      <p>Heute arbeitet ihr mit Lebensgeschichten realer Menschen. Die Texte beruhen auf historischen Akten. Akten zeigen viel, aber nie den ganzen Menschen. Unser Ziel ist nicht, möglichst schnell fertig zu werden. Unser Ziel ist, sorgfältig zu rekonstruieren und würdig zu erinnern. Das wichtigste Ergebnis ist eure Biografie-Karte.</p>
+    </details>
+    <details class="hilfekarte">
+      <summary>Erwartungshorizont für Lehrkräfte</summary>
+      <table class="erwartung-table">
+        <thead><tr><th>Raum</th><th>Erwartbare Erkenntnis</th></tr></thead>
+        <tbody>
+          <tr><td>Raum 1</td><td>Lager III wechselte von geplanter KL-Funktion zu einem Strafgefangenenlager unter Justizverwaltung.</td></tr>
+          <tr><td>Raum 2</td><td>Die Emslandlager waren ein System mit wechselnden Funktionen zwischen 1933 und 1945.</td></tr>
+          <tr><td>Raum 3</td><td>Biografien lassen sich aus Quellen rekonstruieren, bleiben aber lückenhaft.</td></tr>
+          <tr><td>Raum 4</td><td>Haft bedeutete Zwangsarbeit, körperliche Belastung, Entrechtung und Gewalt.</td></tr>
+          <tr><td>Raum 5</td><td>Erinnerung ist lokale Verantwortung und muss immer wieder aktiv gestaltet werden.</td></tr>
+        </tbody>
+      </table>
+    </details>
+    <details class="hilfekarte">
+      <summary>Differenzierung</summary>
+      <p><strong>Für unterstützungsbedürftige Gruppen:</strong> nur eine Biografie bearbeiten, Hilfekarten verpflichtend nutzen, Partnerlesen einsetzen, Audio zuerst hören und anschließend den Text lesen, Biografie-Karte mit Satzanfängen ausfüllen.</p>
+      <p><strong>Für stärkere Gruppen:</strong> zwei Biografien vergleichen, Quellenkritik vertiefen, lokale Erinnerungskultur beurteilen oder eine eigene Frage an die Gedenkstätte formulieren.</p>
+    </details>
+  </div>
+
+  <div class="intro-hinweis">
+    <strong>Hinweis</strong> <button class="btn-audio" onclick="playAudio(2,this)">🔊 Vorlesen</button><strong>:</strong> Die Texte in dieser Lerneinheit beschreiben reale Menschen und reales Leid. Sie basieren auf Originalakten des Niedersächsischen Landesarchivs Osnabrück, bereitgestellt durch die Gedenkstätte Esterwegen. Lies aufmerksam – und lies mit Respekt.
+  </div>
+
+  <div class="nav-row" style="border-top:none;margin-top:0;justify-content:center;">
+    <button class="btn-primary large" onclick="goTo(1)">Jetzt beginnen →</button>
+  </div>
+</div>
+</div>
+
+<!-- ======================================================
+     RAUM 1: DER ORT
+====================================================== -->
+<div id="s-1" class="screen">
+<div class="screen-inner">
+
+  <h2 class="raum-titel">Raum 1 · Der Ort</h2>
+  <div class="leitfrage">Was war das Lager III Brual-Rhede?</div>
+
+  <div class="lese-kasten">
+    <button class="btn-audio" onclick="playAudio(3,this)">🔊 Vorlesen</button>
+    <p>In der Gemeinde Rhede im Emsland, unweit der niederländischen Grenze, befand sich zwischen 1933 und 1945 das <strong>Strafgefangenenlager III Brual-Rhede</strong>. Es war eines von insgesamt fünfzehn Lagern, die das NS-Regime im Emsland errichtete – auf damals weitgehend unbewohntem Moorgebiet, fernab von Städten, schwer einsehbar.</p>
+  </div>
+
+  <div class="lese-kasten">
+    <button class="btn-audio" onclick="playAudio(4,this)">🔊 Vorlesen</button>
+    <p>Das Lager wurde 1933 zunächst als <em>Konzentrationslager</em> für bis zu 1.000 Häftlinge geplant. Ab Mai 1934 übernahm die Reichsjustizverwaltung die Kontrolle und nutzte es als <em>Strafgefangenenlager</em>. Die ersten Bewacher waren SA-Einheiten – später übernahmen Justizbeamte. Die Häftlinge kamen nicht mehr nur wegen ihrer politischen Überzeugung ins Lager: Unter ihnen waren auch verurteilte Strafgefangene, Männer, die gegen NS-Gesetze verstoßen hatten, oft wegen Handlungen, die in einem anderen politischen System keine Straftaten gewesen wären.</p>
+  </div>
+
+
+  <div class="infokasten quelle">
+    <div class="quelle-label">Zur Erinnerung · Lage</div>
+    <p>Das Lager befand sich auf dem Gebiet der Gemeinde Rhede, nahe dem Ort Brual. Heute erinnert ein Gedenkort an diesem Platz an die Geschichte des Lagers und die Menschen, die dort inhaftiert waren. Der Erinnerungsort wurde durch die Initiative von Albert Vinke, mit Unterstützung der Gedenkstätte Esterwegen, der Gemeinde Rhede und des Landkreises Emsland neu gestaltet.</p>
+  </div>
+
+  <h3 class="abschnitt">Was du wissen solltest: Begriffe</h3>
+
+  <div class="aufgabe">
+    <div class="aufgabe-label">Aufgabe 1 <span class="aufgaben-badge pflicht">Pflicht</span></div>
+    <div class="aufgabe-frage">Klicke auf einen Begriff, um seine Erklärung zu lesen. Merke dir die Unterschiede – sie werden in den nächsten Räumen wichtig.</div>
+    <div class="begriffe-grid">
+
+      <div class="begriff-card" onclick="toggleBegriff(this)">
+        <div class="term">Konzentrationslager (KL)</div>
+        <div class="def">Lager, in denen politische Gegner des NS-Regimes ohne Gerichtsurteil eingesperrt wurden. War der SS unterstellt. Häftlinge wurden als „Staatsfeinde" bezeichnet. Ab 1936 wurden KL systematisch für Massenverfolgung genutzt.<br><button class="btn-audio" onclick="playAudio(5,this);event.stopPropagation()">🔊 Vorlesen</button></div>
+        <div class="toggle-hint">▸ Klicken zum Lesen</div>
+      </div>
+
+      <div class="begriff-card" onclick="toggleBegriff(this)">
+        <div class="term">Strafgefangenenlager</div>
+        <div class="def">Lager unter der Reichsjustizverwaltung für verurteilte Häftlinge. Ein Gerichtsurteil war Voraussetzung. Lager III Rhede/Brual war ab 1934 ein solches Lager. Die Inhaftierten hatten formal rechtlichen Status als Strafgefangene – de facto waren die Bedingungen ähnlich brutal wie in KL.<br><button class="btn-audio" onclick="playAudio(6,this);event.stopPropagation()">🔊 Vorlesen</button></div>
+        <div class="toggle-hint">▸ Klicken zum Lesen</div>
+      </div>
+
+      <div class="begriff-card" onclick="toggleBegriff(this)">
+        <div class="term">Zwangsarbeit</div>
+        <div class="def">Arbeit, die unter Androhung von Gewalt und ohne Entlohnung geleistet werden musste. In Lager III arbeiteten Häftlinge im Torfabbau, beim Entwässern von Moorflächen, beim Straßenbau und beim Ausbau des Brualer Schlootes. Arbeitszeiten: 8 bis 12 Stunden täglich.<br><button class="btn-audio" onclick="playAudio(7,this);event.stopPropagation()">🔊 Vorlesen</button></div>
+        <div class="toggle-hint">▸ Klicken zum Lesen</div>
+      </div>
+
+      <div class="begriff-card" onclick="toggleBegriff(this)">
+        <div class="term">Wehrkraft&shy;zersetzung</div>
+        <div class="def">Ein NS-Straftatbestand (§ 5 KSSVO, 1939): Wer durch Wort, Schrift oder Tat die Kampfbereitschaft des deutschen Militärs untergrabe, konnte mit Zuchthaus oder Tod bestraft werden. Betroffen waren u.&nbsp;a. Soldaten, die in Briefen Kriegsmüdigkeit äußerten – wie Luzian West.<br><button class="btn-audio" onclick="playAudio(8,this);event.stopPropagation()">🔊 Vorlesen</button></div>
+        <div class="toggle-hint">▸ Klicken zum Lesen</div>
+      </div>
+
+      <div class="begriff-card" onclick="toggleBegriff(this)">
+        <div class="term">Zuchthaus</div>
+        <div class="def">Die schwerste Freiheitsstrafe im deutschen Recht. Zuchthausstrafen bedeuteten Zwangsarbeit, Ehrverlust und strenge Haftbedingungen. In den Emslandlagern verbüßten viele Verurteilte ihre Zuchthausstrafen unter Bedingungen, die ihre Gesundheit zerstörten.<br><button class="btn-audio" onclick="playAudio(9,this);event.stopPropagation()">🔊 Vorlesen</button></div>
+        <div class="toggle-hint">▸ Klicken zum Lesen</div>
+      </div>
+
+      <div class="begriff-card" onclick="toggleBegriff(this)">
+        <div class="term">Denunziation</div>
+        <div class="def">Anzeige oder Meldung von Mitbürgern an Behörden oder Partei. Im NS-Staat verbreitete Praxis: Nachbarn, Arbeitskollegen oder Bekannte zeigten andere an – aus Überzeugung, Angst oder persönlichem Vorteil. Michael Peschinas Arbeitskollege verriet ihn, weil er ausländisches Radio gehört hatte.<br><button class="btn-audio" onclick="playAudio(10,this);event.stopPropagation()">🔊 Vorlesen</button></div>
+        <div class="toggle-hint">▸ Klicken zum Lesen</div>
+      </div>
+
+    </div><!-- /begriffe-grid -->
+  </div><!-- /aufgabe -->
+
+  <div class="aufgabe">
+    <div class="aufgabe-label">Aufgabe 2 · Einordnen <span class="aufgaben-badge pflicht">Pflicht</span></div>
+    <div class="aufgabe-frage">Ordne jede Aussage der richtigen Lagerart zu: <strong>Konzentrationslager</strong>, <strong>Strafgefangenenlager</strong> oder <strong>Beide</strong>.<br>Klicke auf deine Antwort — dann auf „Auswerten".</div>
+
+    <div class="einordnung-item" id="ei1" data-richtig="KL">
+      <div class="einordnung-aussage">Für die Inhaftierung war kein Gerichtsurteil notwendig.</div>
+      <div class="einordnung-btns">
+        <button class="einordnung-btn" onclick="waehleEinordnung('ei1',this,'KL')">Konzentrationslager</button>
+        <button class="einordnung-btn" onclick="waehleEinordnung('ei1',this,'SGL')">Strafgefangenenlager</button>
+        <button class="einordnung-btn" onclick="waehleEinordnung('ei1',this,'Beide')">Beide</button>
+      </div>
+      <div class="einordnung-feedback">✓ <strong>Konzentrationslager.</strong> Im KL wurden Menschen ohne Urteil eingesperrt — allein die Einschätzung der SS oder Gestapo genügte. Im Strafgefangenenlager musste ein Gerichtsurteil vorliegen.</div>
+    </div>
+
+    <div class="einordnung-item" id="ei2" data-richtig="SGL">
+      <div class="einordnung-aussage">Die Häftlinge hatten ein festes Strafmaß und konnten nach Verbüßen der Strafe entlassen werden.</div>
+      <div class="einordnung-btns">
+        <button class="einordnung-btn" onclick="waehleEinordnung('ei2',this,'KL')">Konzentrationslager</button>
+        <button class="einordnung-btn" onclick="waehleEinordnung('ei2',this,'SGL')">Strafgefangenenlager</button>
+        <button class="einordnung-btn" onclick="waehleEinordnung('ei2',this,'Beide')">Beide</button>
+      </div>
+      <div class="einordnung-feedback">✓ <strong>Strafgefangenenlager.</strong> Michael Peschina wurde nach Verbüßen seiner Strafe entlassen. Im KL gab es keine definierte Haftzeit — Entlassung war Willkür.</div>
+    </div>
+
+    <div class="einordnung-item" id="ei3" data-richtig="KL">
+      <div class="einordnung-aussage">Die Häftlinge wurden als „Staatsfeinde" bezeichnet — nicht als Verurteilte.</div>
+      <div class="einordnung-btns">
+        <button class="einordnung-btn" onclick="waehleEinordnung('ei3',this,'KL')">Konzentrationslager</button>
+        <button class="einordnung-btn" onclick="waehleEinordnung('ei3',this,'SGL')">Strafgefangenenlager</button>
+        <button class="einordnung-btn" onclick="waehleEinordnung('ei3',this,'Beide')">Beide</button>
+      </div>
+      <div class="einordnung-feedback">✓ <strong>Konzentrationslager.</strong> Im KL hatte die Einlieferung nichts mit Recht zu tun — politische Gegner wurden als „Feinde" deklariert. Im Strafgefangenenlager galt zumindest formal das Strafrecht.</div>
+    </div>
+
+    <div class="einordnung-item" id="ei4" data-richtig="SGL">
+      <div class="einordnung-aussage">Die Verwaltung unterstand dem Reichsjustizministerium.</div>
+      <div class="einordnung-btns">
+        <button class="einordnung-btn" onclick="waehleEinordnung('ei4',this,'KL')">Konzentrationslager</button>
+        <button class="einordnung-btn" onclick="waehleEinordnung('ei4',this,'SGL')">Strafgefangenenlager</button>
+        <button class="einordnung-btn" onclick="waehleEinordnung('ei4',this,'Beide')">Beide</button>
+      </div>
+      <div class="einordnung-feedback">✓ <strong>Strafgefangenenlager.</strong> Ab 1934 übernahm die Reichsjustizverwaltung mehrere Emslandlager. Die frühen KL unterstanden SS und SA — außerhalb des regulären Rechts.</div>
+    </div>
+
+    <div class="einordnung-item" id="ei5" data-richtig="Beide">
+      <div class="einordnung-aussage">Zwangsarbeit — oft im Moor — gehörte zum Alltag der Gefangenen.</div>
+      <div class="einordnung-btns">
+        <button class="einordnung-btn" onclick="waehleEinordnung('ei5',this,'KL')">Konzentrationslager</button>
+        <button class="einordnung-btn" onclick="waehleEinordnung('ei5',this,'SGL')">Strafgefangenenlager</button>
+        <button class="einordnung-btn" onclick="waehleEinordnung('ei5',this,'Beide')">Beide</button>
+      </div>
+      <div class="einordnung-feedback">✓ <strong>Beide.</strong> Egal ob KL oder Strafgefangenenlager — alle Häftlinge in den Emslandlagern mussten Zwangsarbeit leisten: Torfabbau, Entwässerung, Straßenbau.</div>
+    </div>
+
+    <div class="einordnung-item" id="ei6" data-richtig="SGL">
+      <div class="einordnung-aussage">Lager III Brual-Rhede gehörte ab 1934 zu dieser Lagerkategorie.</div>
+      <div class="einordnung-btns">
+        <button class="einordnung-btn" onclick="waehleEinordnung('ei6',this,'KL')">Konzentrationslager</button>
+        <button class="einordnung-btn" onclick="waehleEinordnung('ei6',this,'SGL')">Strafgefangenenlager</button>
+        <button class="einordnung-btn" onclick="waehleEinordnung('ei6',this,'Beide')">Beide</button>
+      </div>
+      <div class="einordnung-feedback">✓ <strong>Strafgefangenenlager.</strong> Lager III Rhede/Brual wurde 1933 noch als KL geplant, aber ab Mai 1934 als Strafgefangenenlager unter Justizverwaltung geführt.</div>
+    </div>
+
+    <button class="btn-auswerten" onclick="werteEinordnungAus()">Auswerten →</button>
+  </div>
+
+  <div class="quellenhinweis">
+    Quellen: Niedersächsisches Landesarchiv Osnabrück, Gedenkstätte Esterwegen, Ludgerusschule Rhede – Projekt Lager 3 (ludgerusschule-rhede.de/projekt-lager-3)
+  </div>
+
+  <div class="nav-row">
+    <button class="btn-secondary" onclick="goTo(0)">← Zurück</button>
+    <span class="spacer"></span>
+    <button class="btn-primary" onclick="goTo(2)">Weiter: Das System →</button>
+  </div>
+
+</div>
+</div>
+
+<!-- ======================================================
+     RAUM 2: DAS SYSTEM
+====================================================== -->
+<div id="s-2" class="screen">
+<div class="screen-inner">
+
+  <h2 class="raum-titel">Raum 2 · Das System</h2>
+  <div class="leitfrage">Warum entstanden die Emslandlager – und was verband sie?</div>
+
+  <div class="lese-kasten">
+    <button class="btn-audio" onclick="playAudio(11,this)">🔊 Vorlesen</button>
+    <p>Lager III Brual-Rhede war kein Einzelfall. Es war Teil eines Systems aus fünfzehn Lagern, die das NS-Regime zwischen 1933 und 1945 im dünn besiedelten Emsland errichtete. Die Abgeschiedenheit war kein Zufall: Das Moor schuf natürliche Isolation. Die Häftlinge sollten „Kulturarbeit" leisten – Entwässerung und Urbarmachung eines Landstrichs, der bis dahin kaum bewohnt war.</p>
+
+    <p>Die Lager veränderten sich über die Zeit: ihre Funktion, ihre Bewohner, ihre Verwaltung. Heute steht in Esterwegen eine Gedenkstätte, die an alle fünfzehn Lager erinnert.</p>
+  </div>
+
+  <div class="bildgrid bildstack">
+    <figure class="bildblock">
+      <img loading="lazy" src="assets/img/karte-emslandlager.png" alt="Karte der Emslandlager im Grenzraum zu den Niederlanden">
+      <figcaption>Karte der Emslandlager.<span class="bildquelle"><strong>Bildnachweis:</strong> Ludgerusschule Rhede, Projekt Lager 3. Die Projektseite nennt als Quellen u. a. Gedenkstätte Esterwegen, DIZ Papenburg und Fachliteratur. Einzelrechte der Kartengrafik vor Weiterverwendung prüfen.</span></figcaption>
+    </figure>
+    <figure class="bildblock">
+      <img loading="lazy" src="assets/img/karte-gefangenenwege-europa.png" alt="Europakarte mit Wegen von Gefangenen und Lagerstandorten">
+      <figcaption>Europakarte mit Wegen von Gefangenen und Lagerstandorten.<span class="bildquelle"><strong>Bildnachweis:</strong> Ludgerusschule Rhede, Projekt Lager 3. Einzelherkunft und Rechte der Kartengrafik vor Weiterverwendung prüfen.</span></figcaption>
+    </figure>
+  </div>
+
+  <div class="aufgabe">
+    <div class="aufgabe-label">Aufgabe 2 · Zeitstrahl <span class="aufgaben-badge pflicht">Pflicht</span></div>
+    <div class="aufgabe-frage">Klicke auf ein Jahr, um mehr über diese Phase der Emslandlager zu erfahren.</div>
+
+    <div class="timeline">
+
+      <div class="tl-event" onclick="toggleTL(this)">
+        <div class="tl-left">
+          <div class="tl-year">1933</div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-right">
+          <div class="tl-title">Erste Konzentrationslager im Emsland <button class="btn-audio" onclick="playAudio(12,this);event.stopPropagation()">🔊</button></div>
+          <div class="tl-hint">▸ Klicken</div>
+          <div class="tl-text">Nach der Machtübernahme 1933 errichtete das NS-Regime die ersten Konzentrationslager im Emsland: Esterwegen (Lager I), Börgermoor (Lager II) und Neusustrum (Lager III, später umbenannt). Die Häftlinge waren vor allem politische Gegner – Kommunisten, Sozialdemokraten, Gewerkschafter. Im Lager Börgermoor entstanden 1933 das berühmte <em>Moorsoldatenlied</em> – von den Häftlingen selbst geschrieben: „Wir sind die Moorsoldaten / und ziehen mit dem Spaten ins Moor." Es wurde zu einem Symbol des Widerstands.</div>
+        </div>
+      </div>
+
+      <div class="tl-event" onclick="toggleTL(this)">
+        <div class="tl-left">
+          <div class="tl-year">1934</div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-right">
+          <div class="tl-title">Übernahme durch die Justizverwaltung <button class="btn-audio" onclick="playAudio(13,this);event.stopPropagation()">🔊</button></div>
+          <div class="tl-hint">▸ Klicken</div>
+          <div class="tl-text">Ab 1934 übernahm das Reichsjustizministerium mehrere Lager von der SS und nutzte sie als <em>Strafgefangenenlager</em>. Lager III Brual-Rhede (heute: Rhede) war ab Mai 1934 eines davon. Die Häftlinge waren nun verurteilte Strafgefangene – Menschen, die gegen NS-Gesetze verstoßen hatten. Die Bedingungen blieben hart: Zwangsarbeit, schlechte Verpflegung, fehlende medizinische Versorgung.</div>
+        </div>
+      </div>
+
+      <div class="tl-event" onclick="toggleTL(this)">
+        <div class="tl-left">
+          <div class="tl-year">1939</div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-right">
+          <div class="tl-title">Kriegsbeginn: neue Häftlingsgruppen <button class="btn-audio" onclick="playAudio(14,this);event.stopPropagation()">🔊</button></div>
+          <div class="tl-hint">▸ Klicken</div>
+          <div class="tl-text">Mit dem Beginn des Zweiten Weltkriegs im September 1939 veränderten sich die Emslandlager erneut. Mehrere Lager wurden für <em>Kriegsgefangene</em> genutzt – vor allem polnische und sowjetische Gefangene, die unter besonders unmenschlichen Bedingungen gehalten wurden. Gleichzeitig kamen neue Häftlingsgruppen in die Strafgefangenenlager: Deserteure, Soldaten, die sich „Wehrkraftzersetzung" schuldig gemacht hatten, und Menschen aus besetzten Ländern.</div>
+        </div>
+      </div>
+
+      <div class="tl-event" onclick="toggleTL(this)">
+        <div class="tl-left">
+          <div class="tl-year">1944/45</div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-right">
+          <div class="tl-title">Rüstungsarbeit, Räumung, Kriegsende <button class="btn-audio" onclick="playAudio(15,this);event.stopPropagation()">🔊</button></div>
+          <div class="tl-hint">▸ Klicken</div>
+          <div class="tl-text">In der Endphase des Krieges wurden viele Häftlinge zur Rüstungsarbeit eingesetzt. Als die Alliierten vorrückten, wurden die Lager geräumt – viele Häftlinge starben auf Todesmärschen. Lager III Brual-Rhede wurde im Frühjahr 1945 befreit. Was blieb: Akten in Archiven, Erinnerungen der Überlebenden – und Spuren im Moor.</div>
+        </div>
+      </div>
+
+    </div><!-- /timeline -->
+  </div><!-- /aufgabe -->
+
+  <div class="infokasten">
+    <div class="quelle-label">Die fünfzehn Emslandlager</div>
+    <p style="font-size:.88rem;color:var(--text-muted);">Esterwegen · Börgermoor · Neusustrum · Brual-Rhede · Walchum · Oberlangen · Versen · Groß Hesepe · Bathorn · Fullen · Wietmarschen · Alexisdorf · Aschendorfermoor · Dalum · Wesuwe — alle im heutigen Landkreis Emsland, Niedersachsen.</p>
+  </div>
+
+  <div class="aufgabe">
+    <div class="aufgabe-label">Aufgabe 3 · Synthese <span class="aufgaben-badge vertiefung">Vertiefung</span></div>
+    <div class="aufgabe-frage">Vervollständige die Sätze auf Grundlage des Zeitstrahls. Formuliere in eigenen Worten — nicht abschreiben, sondern zusammenfassen.</div>
+
+    <details class="hilfekarte">
+      <summary>Hilfekarte</summary>
+      <p>Denke an drei Ebenen: Wer war im Lager? Wer verwaltete das Lager? Welche Funktion hatte das Lager? Beginne zum Beispiel mit: „Verändert hat sich …“ oder „Gleich blieb …“.</p>
+    </details>
+
+    <div class="reflex-block">
+      <div class="reflex-prompt">Was sich an den Emslandlagern zwischen 1933 und 1945 veränderte:</div>
+      <textarea data-save="r2_veraendert" rows="4" placeholder="z.B. welche Häftlingsgruppen, welche Verwaltung, welche Funktion …" oninput="save(this)"></textarea>
+    </div>
+    <div class="reflex-block">
+      <div class="reflex-prompt">Was sich nicht veränderte:</div>
+      <textarea data-save="r2_gleich" rows="4" placeholder="Was blieb über alle Phasen hinweg gleich?" oninput="save(this)"></textarea>
+    </div>
+    <div class="reflex-block">
+      <div class="reflex-prompt">Eine Frage, die ich nach diesem Zeitstrahl noch habe:</div>
+      <textarea data-save="r2_frage" rows="3" placeholder="Was bleibt unklar? Was würdest du gerne noch wissen?" oninput="save(this)"></textarea>
+    </div>
+  </div>
+
+  <div class="quellenhinweis">
+    Quellen: Gedenkstätte Esterwegen (gedenkstaette-esterwegen.de), Niedersächsisches Landesarchiv, Ludgerusschule Rhede – Projekt Lager 3
+  </div>
+
+  <div class="nav-row">
+    <button class="btn-secondary" onclick="goTo(1)">← Zurück</button>
+    <span class="spacer"></span>
+    <button class="btn-primary" onclick="goTo(3)">Weiter: Die Biografien →</button>
+  </div>
+
+</div>
+</div>
+
+<!-- ======================================================
+     RAUM 3: DIE BIOGRAFIEN
+====================================================== -->
+<div id="s-3" class="screen">
+<div class="screen-inner">
+
+  <h2 class="raum-titel">Raum 3 · Eine Biografie rekonstruieren</h2>
+  <div class="leitfrage">Was können wir über das Leben eines Menschen aus Lager III erfahren – und was bleibt offen?</div>
+
+  <div class="lese-kasten">
+    <button class="btn-audio" onclick="playAudio(16,this)">🔊 Vorlesen</button>
+    <p>In diesem Raum wählst du eine Person aus, deren Akte im Niedersächsischen Landesarchiv Osnabrück erhalten ist. Die Texte wurden von Schülerinnen und Schülern der Ludgerusschule Rhede auf Grundlage der Originalakten erarbeitet. Du liest die Biografie in Abschnitten – und füllst gleichzeitig eine <strong>Biografie-Karte</strong> aus.</p>
+
+  <div class="infokasten raum3-hinweis">
+    <div class="quelle-label">Arbeitsfokus</div>
+    <p>Nimm dir für diesen Raum besonders viel Zeit. Die Biografie-Karte ist das wichtigste Arbeitsergebnis dieser Lerneinheit. Lies nicht nur weiter, sondern halte nach jedem Abschnitt fest: Was weiß ich jetzt über die Person? Was bleibt offen?</p>
+  </div>
+  <div class="infokasten quellen-erklaerung">
+    <div class="quelle-label">Akten zeigen nicht alles</div>
+    <p>Eine Akte zeigt, was Behörden über einen Menschen festgehalten haben. Sie zeigt nicht den ganzen Menschen. Deshalb ist Biografiearbeit immer auch vorsichtiges Fragen: Was sehen wir? Was fehlt? Wer spricht in der Quelle?</p>
+    <details class="hilfekarte">
+      <summary>Was bedeutet die Quellenangabe?</summary>
+      <p><strong>Nds. Landesarchiv Osnabrück:</strong> Dort werden historische Akten aufbewahrt. <strong>Rep. / Akz. / Nr.:</strong> Das ist eine Art Adresse, mit der man eine bestimmte Akte wiederfinden kann. <strong>Gedenkstätte Esterwegen:</strong> Sie hat die Akten für das Schulprojekt bereitgestellt.</p>
+    </details>
+  </div>
+  <div class="infokasten quelle">
+    <div class="quelle-label">Wer spricht in der Akte?</div>
+    <p>Viele Informationen stammen aus Gerichts- oder Gefangenenakten. Diese Akten wurden von Behörden erstellt. Sie zeigen oft die Sicht der Justiz oder Verwaltung, nicht unbedingt die Sicht der betroffenen Person. Achte deshalb darauf, wer etwas aufgeschrieben hat und wessen Stimme fehlt.</p>
+  </div>
+  <details class="hilfekarte">
+    <summary>Satzanfänge für vorsichtiges Arbeiten</summary>
+    <p>Du darfst ausdrücklich schreiben, wenn etwas unklar bleibt. Nutze zum Beispiel: „Das kann ich aus der Quelle nicht sicher sagen.“ · „Offen bleibt, ob …“ · „Die Quelle sagt nicht, …“ · „Ich vermute, aber sicher ist nicht, dass …“</p>
+  </details>
+  </div>
+
+  <!-- Auswahl -->
+  <div id="bio-chooser-wrap">
+    <h3 class="abschnitt">Wähle eine Person</h3>
+    <div class="bio-chooser">
+      <div class="bio-card" id="card-west" onclick="chooseBio('west')">
+        <div class="bio-name">Luzian West</div>
+        <div class="bio-data">* 30. März 1914, Rosheim (Elsass)<br>Elektriker · verheiratet, zwei Kinder</div>
+        <div class="bio-fokus">Wehrkraftzersetzung · Briefe</div>
+      </div>
+      <div class="bio-card" id="card-peschina" onclick="chooseBio('peschina')">
+        <div class="bio-name">Michael Peschina</div>
+        <div class="bio-data">* 14. August 1902, Großtajax (Tschechien)<br>Melker · verheiratet, drei Kinder</div>
+        <div class="bio-fokus">Denunziation · Auslandssender</div>
+      </div>
+      <div class="bio-card" id="card-martin" onclick="chooseBio('martin')">
+        <div class="bio-name">Franz Adolf Martin</div>
+        <div class="bio-data">* 2. April 1920, Mannheim<br>Landwirt / Soldat</div>
+        <div class="bio-fokus">Desertion · Flucht · Niederlande</div>
+      </div>
+    </div>
+  </div>
+
+  <details class="hilfekarte">
+    <summary>Hilfekarte zur Biografiearbeit</summary>
+    <p>Beginne deine Notizen mit diesen Satzanfängen: „In der Quelle steht …“, „Sicher belegt ist …“, „Ich vermute …, weil …“, „Offen bleibt …“. Schreibe offene Fragen ausdrücklich auf, statt sie zu erfinden.</p>
+  </details>
+
+  <!-- ---- BIOGRAFIE: LUZIAN WEST ---- -->
+  <div class="bio-content" id="bio-west">
+    <h3 class="abschnitt">Luzian West · Häftling im Strafgefangenenlager III Rhede/Brual</h3>
+    <p style="font-size:.82rem;color:var(--text-muted);font-family:Arial,sans-serif;">Text erarbeitet von Schülerinnen und Schülern der Ludgerusschule Rhede auf Grundlage der Originalakte. Quelle: Nds. Landesarchiv Osnabrück, Rep. 947 LIN II, Akz. 2009/007 Nr.289. Bereitgestellt von der Gedenkstätte Esterwegen (Dr. Weitkamp).</p>
+
+    <figure class="bildblock">
+      <img loading="lazy" src="assets/img/akte-luzian-west.jpg" alt="Dokument aus der Akte von Luzian West mit Aufnahmeersuchen">
+      <figcaption>Ausschnitt aus der Akte zu Luzian West.<span class="bildquelle"><strong>Quellennachweis:</strong> Nds. Landesarchiv Osnabrück, Rep. 947 LIN II, Akz. 2009/007 Nr. 289; bereitgestellt durch die Gedenkstätte Esterwegen.</span></figcaption>
+    </figure>
+
+    <div class="bio-fragment">
+      <div class="fragment-text">
+        Luzian West wurde am 30. März 1914 als Sohn des Elektrikers Jakob West und seiner Ehefrau Anne West in Rosheim im Elsass geboren. Er ging vom sechsten bis zum vierzehnten Lebensjahr zur Volksschule, anschließend machte er eine Ausbildung zum Elektriker. Danach leistete er Wehrdienst als Pionier in der französischen Armee. Nach seiner Entlassung heiratete er. Am 11. September 1935 wurde er Vater eines Sohnes, drei Jahre später, am 18. August 1938, bekam die Familie eine Tochter.
+        <label class="mini-impuls">Notiere jetzt einen Satz in deiner Biografie-Karte: Was ist sicher belegt? Was bleibt offen?
+          <textarea data-save="west_note_1" placeholder="Zwischennotiz zu diesem Abschnitt …" oninput="save(this)"></textarea>
+        </label>
+        <div class="audio-zeile" style="margin-top:8px;"><button class="btn-audio" onclick="playAudio(17,this)">🔊 Vorlesen</button></div>
+      </div>
+      <div class="fragment-text hidden" id="west-f2">
+        Am 26. Mai 1943 wurde Luzian West in die Deutsche Wehrmacht eingezogen. Im Oktober wurde er von der Kriegsmarine übernommen. Als Elsässer – also aus einem Gebiet, das 1940 von Deutschland annektiert worden war – war er nun Soldat einer Armee, der er sich nicht zugehörig fühlte. In Briefen an einen Freund und an einen ehemaligen Arbeitskollegen schrieb er, was er nicht laut sagen durfte: Ich habe schon lange die Nase voll. Er schrieb von Elsässern, die keinen Urlaub bekämen, von Ungerechtigkeit – und von einer „Abrechnung", die kommen werde.
+        <label class="mini-impuls">Notiere jetzt einen Satz in deiner Biografie-Karte: Was ist sicher belegt? Was bleibt offen?
+          <textarea data-save="west_note_2" placeholder="Zwischennotiz zu diesem Abschnitt …" oninput="save(this)"></textarea>
+        </label>
+        <div class="audio-zeile" style="margin-top:8px;"><button class="btn-audio" onclick="playAudio(18,this)">🔊 Vorlesen</button></div>
+      </div>
+      <div class="fragment-text hidden" id="west-f3">
+        Diese Briefe wurden bei der Postkontrolle abgefangen. Am 28. Juli 1944 verurteilte ihn ein Feldkriegsgericht in Gotenhafen wegen <em>„Zersetzung der Wehrkraft"</em> zu zwei Jahren und sechs Monaten Zuchthaus. Zusätzlich wurden ihm die bürgerlichen Ehrenrechte für zwei Jahre aberkannt. Da er seine Strafe erst nach Kriegsende verbüßen sollte, wurde er zunächst in das Strafgefängnis Danzig verlegt – und von dort nach Rhede. Im Strafgefangenenlager III war er nun Häftling.
+        <label class="mini-impuls">Notiere jetzt einen Satz in deiner Biografie-Karte: Was ist sicher belegt? Was bleibt offen?
+          <textarea data-save="west_note_3" placeholder="Zwischennotiz zu diesem Abschnitt …" oninput="save(this)"></textarea>
+        </label>
+        <div class="audio-zeile" style="margin-top:8px;"><button class="btn-audio" onclick="playAudio(19,this)">🔊 Vorlesen</button></div>
+      </div>
+      <div class="fragment-text hidden" id="west-f4">
+        Über seinen weiteren Werdegang ist leider nichts bekannt. Die Akte endet mit seiner Einlieferung in Lager III. Was aus Luzian West wurde – ob er den Krieg überlebte, ob er nach Hause zurückkehrte, ob er seine Frau und seine Kinder wiedersah – das wissen wir nicht. Die Quelle schweigt.
+        <label class="mini-impuls">Notiere jetzt einen Satz in deiner Biografie-Karte: Was ist sicher belegt? Was bleibt offen?
+          <textarea data-save="west_note_4" placeholder="Zwischennotiz zu diesem Abschnitt …" oninput="save(this)"></textarea>
+        </label>
+        <div class="audio-zeile" style="margin-top:8px;"><button class="btn-audio" onclick="playAudio(20,this)">🔊 Vorlesen</button></div>
+      </div>
+      <button class="btn-mehr" id="btn-west" onclick="revealNext('west',4)">Weiterlesen ▸</button>
+    </div>
+
+    <div id="bio-karte-west" class="bio-karte" style="display:none;">
+      <h3>Deine Biografie-Karte: Luzian West</h3>
+      <button class="btn-secondary btn-print-bio" type="button" onclick="printBioKarte('west')">Biografie-Karte drucken</button>
+      <div class="karte-grid">
+        <div class="karte-feld"><label>Name</label><input type="text" data-save="west_name" placeholder="vollständiger Name" oninput="save(this)"></div>
+        <div class="karte-feld"><label>Geboren / Herkunft</label><input type="text" data-save="west_geburt" placeholder="Datum, Ort" oninput="save(this)"></div>
+      </div>
+      <div class="karte-feld"><label>Beruf &amp; Lebensumfeld</label><textarea data-save="west_beruf" placeholder="Welchen Beruf hatte er? Wie lebte er vor der Verhaftung?" oninput="save(this)"></textarea></div>
+      <div class="karte-feld"><label>Warum wurde er verurteilt?</label><textarea data-save="west_grund" placeholder="Beschreibe den Vorwurf und das Urteil in eigenen Worten." oninput="save(this)"></textarea></div>
+      <div class="karte-feld"><label>Was wissen wir sicher?</label><textarea data-save="west_sicher" placeholder="Was belegt die Akte eindeutig?" oninput="save(this)"></textarea></div>
+      <div class="karte-feld"><label>Quelle oder Deutung?</label><textarea data-save="west_quelle_deutung" placeholder="Welche Information stammt direkt aus der Akte? Welche Information ist eine begründete Deutung?" oninput="save(this)"></textarea></div>
+      <div class="karte-feld"><label>Was wissen wir nicht?</label><textarea data-save="west_offen" placeholder="Was bleibt offen – und warum?" oninput="save(this)"></textarea></div>
+      <div class="karte-feld"><label>Was soll erinnert werden?</label><textarea data-save="west_erinnerung" placeholder="Formuliere einen Erinnerungssatz für Luzian West." oninput="save(this)"></textarea></div>
+    </div>
+  </div>
+
+  <!-- ---- BIOGRAFIE: MICHAEL PESCHINA ---- -->
+  <div class="bio-content" id="bio-peschina">
+    <h3 class="abschnitt">Michael Peschina · Häftling im Strafgefangenenlager III Rhede/Brual</h3>
+    <p style="font-size:.82rem;color:var(--text-muted);font-family:Arial,sans-serif;">Text erarbeitet von Schülerinnen und Schülern der Ludgerusschule Rhede auf Grundlage der Originalakte. Der Text ist in der Ich-Perspektive gehalten und beruht vollständig auf der Gefangenenakte. Quelle: Nds. Landesarchiv Osnabrück, Rep. 947 Lin. II, Akz. 2009/007 Nr.583. Bereitgestellt von der Gedenkstätte Esterwegen (Dr. Weitkamp).</p>
+
+    <figure class="bildblock">
+      <img loading="lazy" src="assets/img/akte-michael-peschina.jpg" alt="Urteilsdokument aus der Akte von Michael Peschina">
+      <figcaption>Urteilsdokument aus der Akte zu Michael Peschina.<span class="bildquelle"><strong>Quellennachweis:</strong> Nds. Landesarchiv Osnabrück, Rep. 947 Lin. II, Akz. 2009/007 Nr. 583; bereitgestellt durch die Gedenkstätte Esterwegen.</span></figcaption>
+    </figure>
+
+    <div class="bio-fragment">
+      <div class="fragment-text">
+        Mein Name ist Michael Peschina. Ich bin am 14. August 1902 in Großtajax in Tschechien geboren. In meinem letzten Wohnort, Zwingenhof, habe ich als Melker gearbeitet. Mit meiner Frau Wilhelmine Schenk habe ich drei Kinder. Ich kaufte mir vor Kriegsbeginn einen Radioapparat, mit dem ich mehrere Auslandsstationen empfangen konnte.
+        <label class="mini-impuls">Notiere jetzt einen Satz in deiner Biografie-Karte: Was ist sicher belegt? Was bleibt offen?
+          <textarea data-save="peschina_note_1" placeholder="Zwischennotiz zu diesem Abschnitt …" oninput="save(this)"></textarea>
+        </label>
+        <div class="audio-zeile" style="margin-top:8px;"><button class="btn-audio" onclick="playAudio(21,this)">🔊 Vorlesen</button></div>
+      </div>
+      <div class="fragment-text hidden" id="peschina-f2">
+        Von September 1939 bis zum 6. November 1939 hörte ich ausländische Nachrichten – unter anderem aus London und Lyon. Ich erzählte Obermelker Hauser, was ich hörte. Er hat mich verraten und sagte dann zusammen mit den Zeugen Grünzweig und Zwicker vor Gericht gegen mich aus. Ich wusste nicht, dass die Tat so hart bestraft wird, deshalb habe ich sie gestanden.
+        <label class="mini-impuls">Notiere jetzt einen Satz in deiner Biografie-Karte: Was ist sicher belegt? Was bleibt offen?
+          <textarea data-save="peschina_note_2" placeholder="Zwischennotiz zu diesem Abschnitt …" oninput="save(this)"></textarea>
+        </label>
+        <div class="audio-zeile" style="margin-top:8px;"><button class="btn-audio" onclick="playAudio(22,this)">🔊 Vorlesen</button></div>
+      </div>
+      <div class="fragment-text hidden" id="peschina-f3">
+        Am 17. April 1940 wurde ich vom Landgericht Wien nach den Rundfunk-Ausnahmeverordnungen zu zwei Jahren Zuchthaus verurteilt. Ich wurde ins Emsland gebracht. Am 17. März 1942 wurde ich in das Lager III in Rhede verlegt. Im Lager habe ich immer gut mitgearbeitet und mich nie beschwert. Doch im Laufe der Zeit bildete sich eine Phlegmone an meinem Mittelfinger der rechten Hand.
+        <label class="mini-impuls">Notiere jetzt einen Satz in deiner Biografie-Karte: Was ist sicher belegt? Was bleibt offen?
+          <textarea data-save="peschina_note_3" placeholder="Zwischennotiz zu diesem Abschnitt …" oninput="save(this)"></textarea>
+        </label>
+        <div class="audio-zeile" style="margin-top:8px;"><button class="btn-audio" onclick="playAudio(23,this)">🔊 Vorlesen</button></div>
+      </div>
+      <div class="fragment-text hidden" id="peschina-f4">
+        Deshalb war ich nicht mehr arbeitsfähig. Als die Phlegmone abgeheilt war, versteifte sich mein Finger. Ich arbeitete zunächst einige Monate nicht. Damit ich wieder arbeiten konnte, sollte mir der Finger – gegen meinen Willen – amputiert werden. Zum Glück sagte Dr. Hillmann dem Lagerarzt, dass er meinen Finger ohne meine Einwilligung nicht abnehmen darf. Mit der Zeit jedoch verschlimmerte sich der Schmerz, und der Finger wurde mir schließlich doch amputiert – um meine Arbeitsfähigkeit wiederherzustellen. Am 30. April 1942 führte der Lagervorsteher mit mir ein Gespräch über eine baldige Entlassung, weil ich gute Arbeit geleistet habe. Ich wurde am 20. Mai 1942 aus dem Lager III entlassen.
+        <label class="mini-impuls">Notiere jetzt einen Satz in deiner Biografie-Karte: Was ist sicher belegt? Was bleibt offen?
+          <textarea data-save="peschina_note_4" placeholder="Zwischennotiz zu diesem Abschnitt …" oninput="save(this)"></textarea>
+        </label>
+        <div class="audio-zeile" style="margin-top:8px;"><button class="btn-audio" onclick="playAudio(24,this)">🔊 Vorlesen</button></div>
+      </div>
+      <button class="btn-mehr" id="btn-peschina" onclick="revealNext('peschina',4)">Weiterlesen ▸</button>
+    </div>
+
+    <div id="bio-karte-peschina" class="bio-karte" style="display:none;">
+      <h3>Deine Biografie-Karte: Michael Peschina</h3>
+      <button class="btn-secondary btn-print-bio" type="button" onclick="printBioKarte('peschina')">Biografie-Karte drucken</button>
+      <div class="karte-grid">
+        <div class="karte-feld"><label>Name</label><input type="text" data-save="peschina_name" placeholder="vollständiger Name" oninput="save(this)"></div>
+        <div class="karte-feld"><label>Geboren / Herkunft</label><input type="text" data-save="peschina_geburt" placeholder="Datum, Ort" oninput="save(this)"></div>
+      </div>
+      <div class="karte-feld"><label>Beruf &amp; Lebensumfeld</label><textarea data-save="peschina_beruf" placeholder="Welchen Beruf hatte er? Wie lebte er vor der Verhaftung?" oninput="save(this)"></textarea></div>
+      <div class="karte-feld"><label>Warum wurde er verurteilt?</label><textarea data-save="peschina_grund" placeholder="Beschreibe das Vergehen und das Urteil. Was fällt dir dabei auf?" oninput="save(this)"></textarea></div>
+      <div class="karte-feld"><label>Was wissen wir sicher?</label><textarea data-save="peschina_sicher" placeholder="Was belegt die Akte eindeutig?" oninput="save(this)"></textarea></div>
+      <div class="karte-feld"><label>Quelle oder Deutung?</label><textarea data-save="peschina_quelle_deutung" placeholder="Welche Information stammt direkt aus der Akte? Welche Information ist eine begründete Deutung?" oninput="save(this)"></textarea></div>
+      <div class="karte-feld"><label>Was wissen wir nicht?</label><textarea data-save="peschina_offen" placeholder="Was bleibt offen – und warum?" oninput="save(this)"></textarea></div>
+      <div class="karte-feld"><label>Was soll erinnert werden?</label><textarea data-save="peschina_erinnerung" placeholder="Formuliere einen Erinnerungssatz für Michael Peschina." oninput="save(this)"></textarea></div>
+    </div>
+  </div>
+
+  <!-- ---- BIOGRAFIE: FRANZ ADOLF MARTIN ---- -->
+  <div class="bio-content" id="bio-martin">
+    <h3 class="abschnitt">Franz Adolf Martin · Häftling im Strafgefangenenlager III Rhede/Brual</h3>
+    <p style="font-size:.82rem;color:var(--text-muted);font-family:Arial,sans-serif;">Text erarbeitet von Schülerinnen und Schülern der Ludgerusschule Rhede auf Grundlage der Originalakte. Der Text ist in der Ich-Perspektive gehalten und beruht auf der Strafakte. Quelle: Nds. Landesarchiv Osnabrück, Rep. 947 Lin II, Akz. 2009/007 Nr.148. Bereitgestellt von der Gedenkstätte Esterwegen (Dr. Weitkamp).</p>
+
+    <figure class="bildblock">
+      <img loading="lazy" src="assets/img/akte-franz-adolf-martin.jpg" alt="Urteilsdokument aus der Akte von Franz Adolf Martin">
+      <figcaption>Urteilsdokument aus der Akte zu Franz Adolf Martin.<span class="bildquelle"><strong>Quellennachweis:</strong> Nds. Landesarchiv Osnabrück, Rep. 947 Lin II, Akz. 2009/007 Nr. 148; bereitgestellt durch die Gedenkstätte Esterwegen.</span></figcaption>
+    </figure>
+
+    <div class="bio-fragment">
+      <div class="fragment-text">
+        Mein Name ist Franz Adolf Martin. Ich wurde am 2. April 1920 in Mannheim geboren. Ich war Reiter und ehemaliger Soldat. Meine Mutter hieß Emma, mein Vater Josef war Metzgereimeister. Ich besuchte die Volksschule und die Fortbildungsschule, dann lernte ich auf dem Edingerhof in Heidelberg Landwirtschaft. Am 15. März 1940 wurde ich zum Militär einberufen. Ich machte die Feldzüge in Frankreich und auf dem Balkan mit.
+        <label class="mini-impuls">Notiere jetzt einen Satz in deiner Biografie-Karte: Was ist sicher belegt? Was bleibt offen?
+          <textarea data-save="martin_note_1" placeholder="Zwischennotiz zu diesem Abschnitt …" oninput="save(this)"></textarea>
+        </label>
+        <div class="audio-zeile" style="margin-top:8px;"><button class="btn-audio" onclick="playAudio(25,this)">🔊 Vorlesen</button></div>
+      </div>
+      <div class="fragment-text hidden" id="martin-f2">
+        Im Dezember 1942 wurde ich nach der Behandlung in einem Lazarett in Minsk zu einem Ersatztruppenteil nach Trier versetzt. Auf dem Weg dorthin unterbrach ich die Fahrt, um die Eltern eines Kameraden zu besuchen. Ich kam zu spät in Berlin an. Ich wurde festgenommen, weil ich unerlaubt mehr als einen Tag von der Dienststelle ferngeblieben war. Ich erhielt 6 Monate Haftstrafe zuzüglich eines weiteren Monats für frühere Vergehen. Ich wurde in das Strafgefangenenlager III nach Rhede gebracht.
+        <label class="mini-impuls">Notiere jetzt einen Satz in deiner Biografie-Karte: Was ist sicher belegt? Was bleibt offen?
+          <textarea data-save="martin_note_2" placeholder="Zwischennotiz zu diesem Abschnitt …" oninput="save(this)"></textarea>
+        </label>
+        <div class="audio-zeile" style="margin-top:8px;"><button class="btn-audio" onclick="playAudio(26,this)">🔊 Vorlesen</button></div>
+      </div>
+      <div class="fragment-text hidden" id="martin-f3">
+        Am 3. September 1944 flüchtete ich mit einem Mithäftling namens Karl Drewinski durch den Abort des Lagers während der Mitternachtspause. Wir gruben uns in ein Feld ein, schliefen in einem Schuppen bei einem Bauern und wurden weitergereicht – von Bauer zu Bauer. Schließlich gelangten wir zu einer Familie am Staatskanal in den Niederlanden und traten der holländischen Untergrundbewegung bei.
+        <label class="mini-impuls">Notiere jetzt einen Satz in deiner Biografie-Karte: Was ist sicher belegt? Was bleibt offen?
+          <textarea data-save="martin_note_3" placeholder="Zwischennotiz zu diesem Abschnitt …" oninput="save(this)"></textarea>
+        </label>
+        <div class="audio-zeile" style="margin-top:8px;"><button class="btn-audio" onclick="playAudio(27,this)">🔊 Vorlesen</button></div>
+      </div>
+      <div class="fragment-text hidden" id="martin-f4">
+        Dort wurde uns der Auftrag gegeben, uns an einer Sprengung gegen den Sicherheitsdienst zu beteiligen. Das lehnten wir ab. Kurz darauf wurden wir auf einem Feld von zwei Männern beschossen. Ich bekam einen Schuss in den rechten Unterarm. Karl konnte fliehen. Ich wurde versorgt, lebte fünf Wochen unter falscher Identität in einem Notkrankenhaus in Nijkerk. Im November 1944 wurden wir an der Arnheimer Bahn von deutschen Soldaten gestellt. Im Februar 1945 brachte man mich zurück nach Rhede. Wegen der Desertion sollte ich ursprünglich fünf Jahre Zuchthaus bekommen. Man versprach mir Freilassung, wenn ich die Untergrundbewegung aufdeckte. Bis Kriegsende blieb ich in Lager III.
+        <label class="mini-impuls">Notiere jetzt einen Satz in deiner Biografie-Karte: Was ist sicher belegt? Was bleibt offen?
+          <textarea data-save="martin_note_4" placeholder="Zwischennotiz zu diesem Abschnitt …" oninput="save(this)"></textarea>
+        </label>
+        <div class="audio-zeile" style="margin-top:8px;"><button class="btn-audio" onclick="playAudio(28,this)">🔊 Vorlesen</button></div>
+      </div>
+      <button class="btn-mehr" id="btn-martin" onclick="revealNext('martin',4)">Weiterlesen ▸</button>
+    </div>
+
+    <div id="bio-karte-martin" class="bio-karte" style="display:none;">
+      <h3>Deine Biografie-Karte: Franz Adolf Martin</h3>
+      <button class="btn-secondary btn-print-bio" type="button" onclick="printBioKarte('martin')">Biografie-Karte drucken</button>
+      <div class="karte-grid">
+        <div class="karte-feld"><label>Name</label><input type="text" data-save="martin_name" placeholder="vollständiger Name" oninput="save(this)"></div>
+        <div class="karte-feld"><label>Geboren / Herkunft</label><input type="text" data-save="martin_geburt" placeholder="Datum, Ort" oninput="save(this)"></div>
+      </div>
+      <div class="karte-feld"><label>Beruf &amp; Lebensumfeld</label><textarea data-save="martin_beruf" placeholder="Welchen Beruf hatte er? Welche Lebensstationen kennst du?" oninput="save(this)"></textarea></div>
+      <div class="karte-feld"><label>Warum wurde er verurteilt?</label><textarea data-save="martin_grund" placeholder="Beschreibe die Hintergründe der Inhaftierung." oninput="save(this)"></textarea></div>
+      <div class="karte-feld"><label>Was wissen wir sicher?</label><textarea data-save="martin_sicher" placeholder="Was belegt die Akte eindeutig?" oninput="save(this)"></textarea></div>
+      <div class="karte-feld"><label>Quelle oder Deutung?</label><textarea data-save="martin_quelle_deutung" placeholder="Welche Information stammt direkt aus der Akte? Welche Information ist eine begründete Deutung?" oninput="save(this)"></textarea></div>
+      <div class="karte-feld"><label>Was wissen wir nicht?</label><textarea data-save="martin_offen" placeholder="Was bleibt offen? Endet die Geschichte mit Kriegsende?" oninput="save(this)"></textarea></div>
+      <div class="karte-feld"><label>Was soll erinnert werden?</label><textarea data-save="martin_erinnerung" placeholder="Formuliere einen Erinnerungssatz für Franz Adolf Martin." oninput="save(this)"></textarea></div>
+    </div>
+  </div>
+
+  <div class="checkliste">
+    <h3>Bevor du weitergehst</h3>
+    <label><input type="checkbox"> Ich habe eine Person ausgewählt.</label>
+    <label><input type="checkbox"> Ich habe mindestens drei Abschnitte gelesen.</label>
+    <label><input type="checkbox"> Ich habe die Biografie-Karte ausgefüllt.</label>
+    <label><input type="checkbox"> Ich habe notiert, was sicher belegt ist und was offen bleibt.</label>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn-secondary" onclick="goTo(2)">← Zurück</button>
+    <span class="spacer"></span>
+    <button class="btn-primary" onclick="goTo(4)">Weiter: Arbeit &amp; Alltag →</button>
+  </div>
+
+</div>
+</div>
+
+<!-- ======================================================
+     RAUM 4: ARBEIT UND ALLTAG
+====================================================== -->
+<div id="s-4" class="screen">
+<div class="screen-inner">
+
+  <h2 class="raum-titel">Raum 4 · Arbeit und Alltag</h2>
+  <div class="leitfrage">Was bedeutete Haft im Lager III Brual-Rhede?</div>
+
+  <div class="lese-kasten">
+    <button class="btn-audio" onclick="playAudio(29,this)">🔊 Vorlesen</button>
+    <p>Das Emsland war kein Ort, den man zufällig wählte. Das Moor schuf Isolation – und bot gleichzeitig Arbeit, die das Regime als „Nutzen" für Deutschland darstellte: Entwässerung, Torfabbau, Straßenbau. Die Häftlinge schufen diese Infrastruktur mit ihren Händen.</p>
+  </div>
+
+  <figure class="bildblock">
+    <img loading="lazy" src="assets/img/zwangsarbeit-moor.jpg" alt="Historische Aufnahme von Gefangenen bei Arbeiten im Moor">
+    <figcaption>Historische Aufnahme von Arbeit im Moor.<span class="bildquelle"><strong>Bildnachweis:</strong> Ludgerusschule Rhede, Projekt Lager 3; Bilderseite: „Quelle: Privatsammlung Albert Vinke“. Die Einzelherkunft der NS-zeitlichen Aufnahme ist vor Weiterverwendung zu prüfen.</span></figcaption>
+  </figure>
+
+  <div class="infokasten">
+    <div class="quelle-label">Aus den dokumentierten Bedingungen in Lager III <button class="btn-audio" onclick="playAudio(30,this);event.stopPropagation()">🔊 Vorlesen</button></div>
+    <p>Je nach Jahreszeit mussten die Gefangenen <strong>acht bis zwölf Stunden täglich</strong> Zwangsarbeit leisten. Tätigkeiten umfassten Torfabbau, Entwässerungsarbeiten, Straßen- und Wegebau sowie den Ausbau des Brualer Schlootes (eines Entwässerungskanals). Die Verpflegung war schlecht, die medizinische Versorgung unzureichend – und auf Arbeitsfähigkeit ausgerichtet, nicht auf Gesundheit.</p>
+  </div>
+
+  <p>Was bedeutete das konkret? Die Biografie Michael Peschinas zeigt es: Als seine Hand erkrankte, war die zentrale Frage nicht, ob er litt – sondern ob er noch arbeiten konnte. Als sein Finger steif blieb, drohte die Amputation – nicht aus medizinischer Notwendigkeit, sondern um seine Arbeitsfähigkeit wiederherzustellen. Nur das Eingreifen eines Arztes (Dr. Hillmann) verhinderte die zwangsweise Amputation zunächst.</p>
+
+  <h3 class="abschnitt">Quellenampel</h3>
+
+  <div class="aufgabe">
+    <div class="aufgabe-label">Aufgabe 3 · Quellen bewerten <span class="aufgaben-badge pflicht">Pflicht</span></div>
+    <div class="aufgabe-frage">Wie sicher sind die folgenden Aussagen? Ordne jede Aussage einer Kategorie zu:<br>
+      <span style="color:var(--green-sure);font-weight:bold;">🟢 Sicher belegt</span> —
+      <span style="color:var(--yellow-prob);font-weight:bold;">🟡 Wahrscheinlich / angedeutet</span> —
+      <span style="color:var(--red-unsure);font-weight:bold;">🔴 Nicht belegbar / Spekulation</span>
+    </div>
+
+    <div class="qa-item" id="qa1">
+      <div class="qa-aussage">Gefangene in Lager III mussten täglich bis zu zwölf Stunden Zwangsarbeit im Moor leisten.</div>
+      <div class="qa-buttons">
+        <button class="qa-btn" onclick="bewerteQA('qa1','grün',this)">🟢 Sicher belegt</button>
+        <button class="qa-btn" onclick="bewerteQA('qa1','gelb',this)">🟡 Wahrscheinlich</button>
+        <button class="qa-btn" onclick="bewerteQA('qa1','rot',this)">🔴 Nicht belegbar</button>
+      </div>
+      <div class="qa-ergebnis">🟢 <strong>Sicher belegt.</strong> Die Arbeitszeiten sind in den Lagerdokumentationen und durch die Gedenkstätte Esterwegen nachgewiesen. <button class="btn-audio" onclick="playAudio(31,this)">🔊 Vorlesen</button></div>
+    </div>
+
+    <div class="qa-item" id="qa2">
+      <div class="qa-aussage">Luzian West hoffte, dass seine Familie von seiner Lage im Lager erfuhr.</div>
+      <div class="qa-buttons">
+        <button class="qa-btn" onclick="bewerteQA('qa2','grün',this)">🟢 Sicher belegt</button>
+        <button class="qa-btn" onclick="bewerteQA('qa2','gelb',this)">🟡 Wahrscheinlich</button>
+        <button class="qa-btn" onclick="bewerteQA('qa2','rot',this)">🔴 Nicht belegbar</button>
+      </div>
+      <div class="qa-ergebnis">🟡 <strong>Wahrscheinlich, aber nicht belegt.</strong> Aus seinen Briefen wissen wir, dass er seiner Familie verbunden war – doch was er im Lager hoffte oder dachte, zeigt keine Quelle. Wir deuten, nicht belegen. <button class="btn-audio" onclick="playAudio(32,this)">🔊 Vorlesen</button></div>
+    </div>
+
+    <div class="qa-item" id="qa3">
+      <div class="qa-aussage">Alle Wachmänner in Lager III handelten aus persönlichem Hass auf die Gefangenen.</div>
+      <div class="qa-buttons">
+        <button class="qa-btn" onclick="bewerteQA('qa3','grün',this)">🟢 Sicher belegt</button>
+        <button class="qa-btn" onclick="bewerteQA('qa3','gelb',this)">🟡 Wahrscheinlich</button>
+        <button class="qa-btn" onclick="bewerteQA('qa3','rot',this)">🔴 Nicht belegbar</button>
+      </div>
+      <div class="qa-ergebnis">🔴 <strong>Nicht belegbar – und problematisch.</strong> Eine pauschale Aussage über Motive ist historisch unzulässig. Das System schuf die Bedingungen für Gewalt – Einzelmotive waren verschieden. Die Akte zeigt, dass Dr. Hillmann Peschina schützte. Auch unter Tätern gab es Menschen, die Grenzen zogen. <button class="btn-audio" onclick="playAudio(33,this)">🔊 Vorlesen</button></div>
+    </div>
+
+    <div class="qa-item" id="qa4">
+      <div class="qa-aussage">Die medizinische Versorgung im Lager war auf Arbeitsfähigkeit ausgerichtet, nicht auf das Wohlergehen der Häftlinge.</div>
+      <div class="qa-buttons">
+        <button class="qa-btn" onclick="bewerteQA('qa4','grün',this)">🟢 Sicher belegt</button>
+        <button class="qa-btn" onclick="bewerteQA('qa4','gelb',this)">🟡 Wahrscheinlich</button>
+        <button class="qa-btn" onclick="bewerteQA('qa4','rot',this)">🔴 Nicht belegbar</button>
+      </div>
+      <div class="qa-ergebnis">🟢 <strong>Sicher belegt – durch den Fall Peschina.</strong> Die Amputation wurde erwogen, um seine „Arbeitsfähigkeit wiederherzustellen". Das Gespräch über Entlassung kam, nachdem er „gute Arbeit geleistet" hatte. Menschen galten als Arbeitsmittel. <button class="btn-audio" onclick="playAudio(34,this)">🔊 Vorlesen</button></div>
+    </div>
+
+    <div class="qa-item" id="qa5">
+      <div class="qa-aussage">Franz Adolf Martin bereute seine Desertion aufrichtig.</div>
+      <div class="qa-buttons">
+        <button class="qa-btn" onclick="bewerteQA('qa5','grün',this)">🟢 Sicher belegt</button>
+        <button class="qa-btn" onclick="bewerteQA('qa5','gelb',this)">🟡 Wahrscheinlich</button>
+        <button class="qa-btn" onclick="bewerteQA('qa5','rot',this)">🔴 Nicht belegbar</button>
+      </div>
+      <div class="qa-ergebnis">🔴 <strong>Nicht belegbar.</strong> Die Strafakte zeigt Fakten – keine innere Haltung. Ob Martin seine Flucht bereute oder sie als richtige Entscheidung ansah, wissen wir nicht. Seine Biografie deutet eher auf einen Menschen hin, der handelte – und sich wehrte. <button class="btn-audio" onclick="playAudio(35,this)">🔊 Vorlesen</button></div>
+    </div>
+
+  </div><!-- /aufgabe -->
+
+  <div class="quellenhinweis">
+    Quellen: Gedenkstätte Esterwegen, Nds. Landesarchiv Osnabrück, Ludgerusschule Rhede – Projekt Lager 3
+  </div>
+
+  <div class="nav-row">
+    <button class="btn-secondary" onclick="goTo(3)">← Zurück</button>
+    <span class="spacer"></span>
+    <button class="btn-primary" onclick="goTo(5)">Weiter: Erinnerung heute →</button>
+  </div>
+
+</div>
+</div>
+
+<!-- ======================================================
+     RAUM 5: ERINNERUNG HEUTE
+====================================================== -->
+<div id="s-5" class="screen">
+<div class="screen-inner">
+
+  <h2 class="raum-titel">Raum 5 · Erinnerung heute</h2>
+  <div class="leitfrage">Warum erinnert die Ludgerusschule Rhede heute an diesen Ort?</div>
+
+  <div class="lese-kasten">
+    <button class="btn-audio" onclick="playAudio(36,this)">🔊 Vorlesen</button>
+    <p>Lager III Brual-Rhede liegt nur wenige Kilometer von der Schule entfernt. Jahrzehnte lang war dieser Ort nahezu vergessen – kein Schild, kein Denkmal, kaum eine Erinnerung in der Gemeinde. Das änderte sich durch Menschen, die nicht vergessen wollten.</p>
+
+    <p>Auf Initiative von <strong>Albert Vinke</strong> und mit Unterstützung der Gedenkstätte Esterwegen, der Gemeinde Rhede und des Landkreises Emsland wurde der Ort neu gestaltet. Heute steht dort ein Erinnerungsort. Schülerinnen und Schüler der Ludgerusschule arbeiteten mit Scans von Originalakten, erarbeiteten Häftlingsbiografien und veröffentlichten ihre Ergebnisse online – damit die Namen nicht verschwinden.</p>
+  </div>
+  <figure class="bildblock">
+    <img loading="lazy" src="assets/img/orientierungskarte-schule-lager.png" alt="Aktuelle Orientierungskarte mit Route zwischen Ludgerusschule Rhede und Lager III Brual-Rhede">
+    <figcaption>Aktuelle Orientierungskarte: Ludgerusschule Rhede und Standort Lager III Brual-Rhede.<span class="bildquelle"><strong>Kartennachweis:</strong> Screenshot einer OpenStreetMap-basierten Routenansicht. Nur als didaktische Orientierung verwenden; Kartendaten © OpenStreetMap-Mitwirkende.</span></figcaption>
+  </figure>
+
+  <div class="infokasten quelle">
+    <div class="quelle-label">Ergänzung möglich</div>
+    <p>Wenn ein aktuelles Foto des Erinnerungsortes Lager III Brual-Rhede mit geklärten Rechten vorliegt, sollte es hier ergänzt werden. Es würde den Übergang von der historischen Quelle zur heutigen Erinnerung sichtbar machen.</p>
+  </div>
+
+  <div class="aufgabe">
+    <div class="aufgabe-label">Lokaler Bezug <span class="aufgaben-badge vertiefung">Vertiefung</span></div>
+    <div class="aufgabe-frage">Schau dir die Karte an. Was verändert sich, wenn man erkennt, dass dieser Ort in der Nähe der Schule liegt?</div>
+    <div class="reflex-block">
+      <div class="reflex-prompt">Warum ist lokale Geschichte manchmal schwerer wahrzunehmen als weit entfernte Geschichte?</div>
+      <textarea data-save="lokaler_bezug" placeholder="Formuliere zwei bis drei Sätze." oninput="save(this)"></textarea>
+    </div>
+    <details class="hilfekarte">
+      <summary>Hilfekarte</summary>
+      <p>Du kannst so beginnen: „Für mich verändert die Nähe zur Schule …“ oder „Lokale Geschichte ist schwer wahrzunehmen, weil …“.</p>
+    </details>
+  </div>
+
+  <div class="infokasten quelle">
+    <div class="quelle-label">Ziel des Projekts</div>
+    <p>„Die Inhalte sollen künftig überarbeitet, erneuert und ergänzt werden, damit ein lebendiger Erinnerungsort entsteht." — Ludgerusschule Rhede, Projekt Lager 3</p>
+  </div>
+
+  <p>Erinnerung ist keine Aufgabe, die man einmal erledigt. Sie muss immer wieder neu gelebt werden – durch Menschen, die die Geschichten weitertragen. Durch dich.</p>
+
+  <h3 class="abschnitt">Deine Reflexion</h3>
+
+  <details class="hilfekarte">
+    <summary>Hilfekarte zur Reflexion</summary>
+    <p>Du musst keine perfekte Antwort schreiben. Wichtig ist, dass du zwischen Information, Gefühl und offener Frage unterscheidest. Satzanfänge: „Beschäftigt hat mich …“, „Nicht klären konnte ich …“, „Für Rhede bedeutet das …“.</p>
+  </details>
+
+  <div class="reflex-block">
+    <div class="reflex-prompt">Was hat dich in dieser Lerneinheit am meisten beschäftigt?</div>
+    <textarea data-save="reflex1" placeholder="Schreib auf, was dich bewegt hat – einen Satz, einen Gedanken, eine Frage." oninput="save(this)"></textarea>
+  </div>
+
+  <div class="reflex-block">
+    <div class="reflex-prompt">Was zeigen die Quellen – und was zeigen sie nicht?</div>
+    <textarea data-save="reflex2" placeholder="Welche Informationen fehlen? Was bleibt unklar? Was hätte die Person selbst vielleicht anders erzählt?" oninput="save(this)"></textarea>
+  </div>
+
+  <div class="reflex-block">
+    <div class="reflex-prompt">Was bedeutet ein Erinnerungsort wie dieser für eine Gemeinde wie Rhede?</div>
+    <textarea data-save="reflex3" placeholder="Warum ist es wichtig, dass dieser Ort existiert? Was wäre verloren, wenn er vergessen würde?" oninput="save(this)"></textarea>
+  </div>
+
+  <div class="aufgabe">
+    <div class="aufgabe-label">Abschlussgespräch <span class="aufgaben-badge pflicht">Pflicht</span></div>
+    <div class="aufgabe-frage">Bereitet euch auf ein kurzes Gespräch im Plenum oder in Partnerarbeit vor.</div>
+    <ol style="padding-left:20px;">
+      <li>Welche Information aus einer Biografie bleibt dir besonders im Kopf?</li>
+      <li>Welche Frage konnte die Quelle nicht beantworten?</li>
+      <li>Was sollte ein Erinnerungsort leisten: informieren, warnen, trauern, Namen sichtbar machen oder Fragen stellen?</li>
+    </ol>
+  </div>
+
+  <div class="gedenkbaustein">
+    <h3>Dein Erinnerungsbaustein</h3>
+    <p style="font-size:.88rem;margin-bottom:14px;color:#c8a870;">Wähle zuerst eine Form der Erinnerung. Danach formulierst du deinen Baustein.</p>
+    <div class="erinnerungsformen" role="group" aria-label="Form der Erinnerung auswählen">
+      <label><input type="radio" name="erinnerungsform" value="kurzer Text" data-save="erinnerungsform" onchange="save(this)"> kurzer Text</label>
+      <label><input type="radio" name="erinnerungsform" value="Bildunterschrift" data-save="erinnerungsform" onchange="save(this)"> Bildunterschrift für eine Ausstellung</label>
+      <label><input type="radio" name="erinnerungsform" value="Frage" data-save="erinnerungsform" onchange="save(this)"> Frage an heutige Besucher*innen</label>
+      <label><input type="radio" name="erinnerungsform" value="Gedenktafel" data-save="erinnerungsform" onchange="save(this)"> Satz für eine Gedenktafel</label>
+      <label><input type="radio" name="erinnerungsform" value="Audio-Statement" data-save="erinnerungsform" onchange="save(this)"> kurzes Audio-Statement</label>
+    </div>
+    <p style="font-size:.88rem;margin-bottom:14px;color:#c8a870;">Vervollständige einen der folgenden Sätze – oder schreib deinen eigenen:</p>
+    <p style="font-size:.85rem;color:#a88858;margin-bottom:12px;font-style:italic;">
+      „An [Name] sollte erinnert werden, weil …" &nbsp;·&nbsp;
+      „Diese Geschichte hat mir gezeigt, dass …" &nbsp;·&nbsp;
+      „Was ich von hier mitnehme: …"
+    </p>
+    <textarea data-save="gedenkbaustein" placeholder="Schreib deinen Erinnerungsbaustein hier …" oninput="save(this)"></textarea>
+    <div class="datenschutz-hinweis">Wenn dein Text später veröffentlicht werden soll, wird er vorher geprüft. Veröffentlicht werden keine vollständigen Namen von Schüler*innen ohne Zustimmung.</div>
+  </div>
+
+  <div class="infokasten" style="margin-top:28px;">
+    <div class="quelle-label">Weiterführende Informationen</div>
+    <p style="font-size:.88rem;color:var(--text-muted);">
+      <strong>Gedenkstätte Esterwegen</strong> · gedenkstaette-esterwegen.de<br>
+      <strong>Ludgerusschule Rhede – Projekt Lager 3</strong> · ludgerusschule-rhede.de/projekt-lager-3<br>
+      <strong>Niedersächsisches Landesarchiv Osnabrück</strong> · Rep. 947 LIN II
+    </p>
+  </div>
+
+  <div class="selbstcheck">
+    <h3>Selbstcheck</h3>
+    <p>Ich kann erklären …</p>
+    <label><input type="checkbox"> was Lager III Brual-Rhede war.</label>
+    <label><input type="checkbox"> warum Quellen lückenhaft sein können.</label>
+    <label><input type="checkbox"> was Zwangsarbeit im Lager bedeutete.</label>
+    <label><input type="checkbox"> warum lokale Erinnerung wichtig ist.</label>
+  </div>
+
+  <div class="infokasten quelle">
+    <div class="quelle-label">Bild- und Kartennachweise</div>
+    <p>Die historischen Projektfotos werden auf der Bilderseite der Ludgerusschule mit „Quelle: Privatsammlung Albert Vinke“ ausgewiesen. Karten und Aktenausschnitte stammen aus dem Projektzusammenhang der Ludgerusschule Rhede und den dort genannten Quellen. Für jede Weiterverwendung außerhalb dieser Lernseite sollten die Einzelrechte der jeweiligen Abbildung geprüft werden.</p>
+  </div>
+
+  <div class="infokasten" style="font-size:.88rem;color:var(--text-muted);">
+    <div class="quelle-label">Hinweis für Lehrkräfte</div>
+    <p>Eine aktualisierte Lehrerhandreichung ist über den Link in der Kopfzeile erreichbar. Sie enthält Hinweise zu Zeitplanung, Differenzierung, Bild- und Quellenarbeit sowie Kopiervorlagen.</p>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn-secondary" onclick="goTo(4)">← Zurück</button>
+    <span class="spacer"></span>
+    <button class="btn-druck" onclick="window.print()">🖨 Eingaben drucken / speichern</button>
+  </div>
+
+  <div class="quellenhinweis" style="margin-top:28px;">
+    Erarbeitet von Schülerinnen und Schülern der Ludgerusschule Rhede (Ems) auf Grundlage von Originalakten aus dem Niedersächsischen Landesarchiv Osnabrück (Rep. 947 LIN II), bereitgestellt durch die Gedenkstätte Esterwegen (Dr. Weitkamp). Digitale Lerneinheit: Projekt Lager 3 · ludgerusschule-rhede.de/projekt-lager-3 · Stand 2025.
+  </div>
+
+</div>
+</div>
+
+<!-- ====================================================== -->
+<script>
+// ===== AUDIO =====
+let _aud = null, _audBtn = null;
+function playAudio(n, btn) {
+  const src = 'assets/audio/text' + String(n).padStart(2,'0') + '.mp3';
+  // Gleicher Button nochmal → Pause/Resume
+  if (_aud && _aud.dataset.src === src) {
+    if (_aud.paused) {
+      _aud.play();
+      btn.innerHTML = '⏸ Pause';
+      btn.classList.add('playing');
+    } else {
+      _aud.pause();
+      btn.innerHTML = '🔊 Vorlesen';
+      btn.classList.remove('playing');
+    }
+    return;
+  }
+  // Laufendes Audio stoppen
+  if (_aud) { _aud.pause(); _aud.currentTime = 0; }
+  if (_audBtn) { _audBtn.innerHTML = '🔊 Vorlesen'; _audBtn.classList.remove('playing'); }
+  _aud = new Audio(src);
+  _aud.dataset.src = src;
+  _audBtn = btn;
+  btn.innerHTML = '⏸ Pause';
+  btn.classList.add('playing');
+  _aud.play().catch(() => { btn.innerHTML = '🔊 Vorlesen'; btn.classList.remove('playing'); });
+  _aud.onended = () => { btn.innerHTML = '🔊 Vorlesen'; btn.classList.remove('playing'); _aud = null; _audBtn = null; };
+}
+
+// ===== ZUSTAND =====
+let currentRoom = 0;
+const visited = new Set([0]);
+// Biografie-Fortschritt
+const bioStep = { west:1, peschina:1, martin:1 };
+
+// ===== NAVIGATION =====
+function goTo(room) {
+  // Alle Screens ausblenden
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  // Ziel einblenden
+  const ids = ['s-intro','s-1','s-2','s-3','s-4','s-5'];
+  document.getElementById(ids[room]).classList.add('active');
+  updateRoomStatus(room);
+  currentRoom = room;
+  visited.add(room);
+  updateDots();
+  window.scrollTo(0,0);
+  // localStorage
+  try { localStorage.setItem('sim_room', room); } catch(e){}
+}
+
+function updateDots() {
+  for (let i=0; i<=5; i++) {
+    const el = document.getElementById('dot'+i);
+    if (!el) continue;
+    el.classList.remove('active','done');
+    if (i === currentRoom) {
+      el.classList.add('active');
+      el.style.cursor = 'default';
+    } else if (visited.has(i)) {
+      el.classList.add('done');
+      el.style.cursor = 'pointer';
+      el.onclick = () => goTo(i);
+    }
+  }
+}
+
+function updateRoomStatus(room) {
+  const labels = [
+    'Einführung',
+    'Raum 1 von 5 · Der Ort',
+    'Raum 2 von 5 · Das System',
+    'Raum 3 von 5 · Biografiearbeit',
+    'Raum 4 von 5 · Arbeit und Alltag',
+    'Raum 5 von 5 · Erinnerung heute'
+  ];
+  const el = document.getElementById('roomStatus');
+  if (el) el.textContent = labels[room] || 'Einführung';
+}
+
+// ===== BEAMER-MODUS =====
+let beamerOn = false;
+function toggleBeamer() {
+  beamerOn = !beamerOn;
+  document.body.classList.toggle('beamer', beamerOn);
+  document.getElementById('beamerBtn').textContent = beamerOn ? '🖥 Normalmodus' : '📽 Präsentationsmodus';
+}
+
+// ===== BEGRIFFE AUFKLAPPEN =====
+function toggleBegriff(el) {
+  el.classList.toggle('open');
+  const hint = el.querySelector('.toggle-hint');
+  if (hint) hint.textContent = el.classList.contains('open') ? '▾ Schließen' : '▸ Klicken zum Lesen';
+}
+
+// ===== TIMELINE =====
+function toggleTL(el) {
+  el.classList.toggle('open');
+}
+
+// ===== BIOGRAFIE WÄHLEN =====
+function chooseBio(bio) {
+  // Karten markieren
+  ['west','peschina','martin'].forEach(b => {
+    document.getElementById('card-'+b).classList.toggle('chosen', b===bio);
+  });
+  // Inhalte anzeigen
+  document.querySelectorAll('.bio-content').forEach(c => c.classList.remove('active'));
+  const c = document.getElementById('bio-'+bio);
+  if (c) c.classList.add('active');
+  // Chooser etwas zurückschieben
+  document.getElementById('bio-chooser-wrap').style.marginBottom = '28px';
+  // Gespeicherte Wahl laden
+  try { localStorage.setItem('sim_bio', bio); } catch(e){}
+  // Biografie-Karte laden
+  loadSavedInputs();
+initImageZoom();
+}
+
+// ===== BIOGRAFIE SCHRITTWEISE ENTHÜLLEN =====
+function revealNext(bio, total) {
+  const step = bioStep[bio];
+  if (step >= total) return;
+  const next = step + 1;
+  const el = document.getElementById(bio + '-f' + next);
+  if (el) {
+    el.classList.remove('hidden');
+    el.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }
+  bioStep[bio] = next;
+  // Wenn alles enthüllt: Karte anzeigen, Button deaktivieren
+  if (next >= total) {
+    const btn = document.getElementById('btn-'+bio);
+    if (btn) { btn.textContent = 'Vollständig gelesen ✓'; btn.disabled = true; }
+    const karte = document.getElementById('bio-karte-'+bio);
+    if (karte) { karte.style.display='block'; karte.scrollIntoView({ behavior:'smooth', block:'start' }); }
+  }
+}
+
+// ===== QUELLENAMPEL =====
+function bewerteQA(id, farbe, btn) {
+  const item = document.getElementById(id);
+  // Alle Buttons dieser Gruppe zurücksetzen
+  item.querySelectorAll('.qa-btn').forEach(b => {
+    b.classList.remove('gewählt-grün','gewählt-gelb','gewählt-rot');
+  });
+  // Gewählten markieren
+  btn.classList.add('gewählt-'+farbe);
+  item.classList.add('bewertet');
+  // Speichern
+  try { localStorage.setItem('sim_qa_'+id, farbe); } catch(e){}
+}
+
+// ===== LOKALER SPEICHER =====
+function save(el) {
+  const key = el.dataset.save;
+  if (!key) return;
+  try { localStorage.setItem('sim_'+key, el.value); } catch(e){}
+}
+
+function loadSavedInputs() {
+  document.querySelectorAll('[data-save]').forEach(el => {
+    try {
+      const val = localStorage.getItem('sim_'+el.dataset.save);
+      if (val !== null) {
+        if (el.type === 'radio') el.checked = (el.value === val);
+        else el.value = val;
+      }
+    } catch(e){}
+  });
+}
+
+
+// ===== BIOGRAFIE-KARTE DRUCKEN =====
+function printBioKarte(bio) {
+  const names = { west:'Luzian West', peschina:'Michael Peschina', martin:'Franz Adolf Martin' };
+  const karte = document.getElementById('bio-karte-' + bio);
+  if (!karte) return;
+  const clone = karte.cloneNode(true);
+  clone.querySelectorAll('button').forEach(btn => btn.remove());
+  clone.querySelectorAll('input, textarea').forEach(el => {
+    const block = document.createElement('div');
+    block.style.whiteSpace = 'pre-wrap';
+    block.style.border = '1px solid #c4a882';
+    block.style.borderRadius = '4px';
+    block.style.padding = '8px';
+    block.style.margin = '4px 0 12px';
+    block.textContent = el.value || '—';
+    el.replaceWith(block);
+  });
+  const noteValues = [...document.querySelectorAll(`#bio-${bio} textarea[data-save^="${bio}_note_"]`)]
+    .map((el, index) => `<div><strong>Abschnitt ${index + 1}:</strong><div class="note-print-block">${(el.value || '—').replace(/[&<>]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[ch]))}</div></div>`)
+    .join('');
+  const notesHtml = noteValues ? `<h2>Zwischennotizen aus den Biografiefragmenten</h2>${noteValues}` : '';
+  const win = window.open('', '_blank');
+  if (!win) { window.print(); return; }
+  win.document.write(`<!doctype html><html lang="de"><head><meta charset="utf-8"><title>Biografie-Karte ${names[bio] || ''}</title><style>body{font-family:Georgia,serif;line-height:1.55;padding:24px;color:#1e1208}h1{font-size:1.4rem}.meta{font-family:Arial,sans-serif;color:#6a4a28;font-size:.85rem;margin-bottom:18px}.bio-karte{border:2px solid #c4a882;border-radius:8px;padding:18px}label{font-weight:bold;color:#6a4a28;text-transform:uppercase;font-family:Arial,sans-serif;font-size:.78rem}.note-print-block{border:1px solid #c4a882;border-radius:4px;padding:8px;margin:6px 0 12px;white-space:pre-wrap}h2{font-size:1.1rem;margin-top:18px;color:#2a1408}</style></head><body><h1>Biografie-Karte: ${names[bio] || ''}</h1><div class="meta">Name / Gruppe: ____________________ · Datum: ____________________</div>${clone.outerHTML}${notesHtml}</body></html>`);
+  win.document.close();
+  win.focus();
+  win.print();
+}
+
+
+// ===== BILDVERGRÖSSERUNG =====
+function initImageZoom() {
+  if (document.getElementById('imgModal')) return;
+  const modal = document.createElement('div');
+  modal.className = 'img-modal';
+  modal.id = 'imgModal';
+  modal.innerHTML = `<button class="img-modal-close" type="button" aria-label="Bild schließen">×</button><div class="img-modal-inner"><img alt=""><div class="img-modal-caption"></div></div>`;
+  document.body.appendChild(modal);
+  const modalImg = modal.querySelector('img');
+  const modalCaption = modal.querySelector('.img-modal-caption');
+  function closeModal(){ modal.classList.remove('open'); modalImg.removeAttribute('src'); }
+  modal.querySelector('.img-modal-close').addEventListener('click', closeModal);
+  modal.addEventListener('click', event => { if (event.target === modal) closeModal(); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') closeModal(); });
+
+  document.querySelectorAll('.bildblock').forEach((figure, index) => {
+    const img = figure.querySelector('img');
+    if (!img) return;
+    const caption = figure.querySelector('figcaption')?.textContent?.trim() || img.alt || 'Bild';
+    if (!figure.querySelector('.quellen-label-bild')) {
+      const src = img.getAttribute('src') || '';
+      let label = 'Bildquelle';
+      if (src.includes('karte-') || src.includes('orientierungskarte')) label = src.includes('orientierungskarte') ? 'Heutige Orientierung' : 'Karte';
+      else if (src.includes('akte-')) label = 'Aktenausschnitt';
+      else if (src.includes('lager') || src.includes('zwangsarbeit')) label = 'Historisches Foto';
+      const badge = document.createElement('span');
+      badge.className = 'quellen-label-bild';
+      badge.textContent = label;
+      figure.appendChild(badge);
+    }
+    img.addEventListener('click', () => openImage(img, caption));
+    if (!figure.querySelector('.btn-img-zoom')) {
+      const actions = document.createElement('div');
+      actions.className = 'bild-actions';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'btn-img-zoom';
+      btn.textContent = 'Bild vergrößern';
+      btn.setAttribute('aria-label', 'Bild vergrößern: ' + caption);
+      btn.addEventListener('click', () => openImage(img, caption));
+      actions.appendChild(btn);
+      figure.appendChild(actions);
+    }
+  });
+  function openImage(img, caption) {
+    modalImg.src = img.currentSrc || img.src;
+    modalImg.alt = img.alt || caption;
+    modalCaption.textContent = caption;
+    modal.classList.add('open');
+    modal.querySelector('.img-modal-close').focus();
+  }
+}
+
+// ===== INITIALISIERUNG =====
+window.addEventListener('DOMContentLoaded', () => {
+  // Raum wiederherstellen
+  try {
+    const r = parseInt(localStorage.getItem('sim_room') || '0');
+    if (r >= 0 && r <= 5) {
+      for (let i=0; i<=r; i++) visited.add(i);
+      goTo(r);
+    }
+  } catch(e){}
+
+  // Biografie wiederherstellen
+  try {
+    const bio = localStorage.getItem('sim_bio');
+    if (bio) {
+      chooseBio(bio);
+      // Gelesene Fragmente wiederherstellen (alle anzeigen)
+      const step = parseInt(localStorage.getItem('sim_bio_step_'+bio) || '1');
+      for (let i=2; i<=step; i++) {
+        const el = document.getElementById(bio+'-f'+i);
+        if (el) el.classList.remove('hidden');
+      }
+      bioStep[bio] = step;
+      if (step >= 4) {
+        const btn = document.getElementById('btn-'+bio);
+        if (btn) { btn.textContent = 'Vollständig gelesen ✓'; btn.disabled = true; }
+        const karte = document.getElementById('bio-karte-'+bio);
+        if (karte) karte.style.display='block';
+      }
+    }
+  } catch(e){}
+
+  // Gespeicherte Eingaben laden
+  loadSavedInputs();
+  initImageZoom();
+
+  // Einordnungsaufgabe wiederherstellen
+  ['ei1','ei2','ei3','ei4','ei5','ei6'].forEach(id => {
+    try {
+      const wahl = localStorage.getItem('sim_ei_'+id);
+      if (wahl) {
+        const map = { 'KL':'Konzentrationslager', 'SGL':'Strafgefangenenlager', 'Beide':'Beide' };
+        const item = document.getElementById(id);
+        item.querySelectorAll('.einordnung-btn').forEach(btn => {
+          if (btn.textContent.trim() === map[wahl]) {
+            btn.classList.add('gewaehlt');
+            einordnungWahl[id] = wahl;
+          }
+        });
+      }
+    } catch(e){}
+  });
+
+  // Quellenampel wiederherstellen
+  ['qa1','qa2','qa3','qa4','qa5'].forEach(id => {
+    try {
+      const farbe = localStorage.getItem('sim_qa_'+id);
+      if (farbe) {
+        const item = document.getElementById(id);
+        const btn = [...item.querySelectorAll('.qa-btn')].find(b =>
+          b.textContent.includes(farbe==='grün'?'Sicher':farbe==='gelb'?'Wahrscheinlich':'Nicht')
+        );
+        if (btn) bewerteQA(id, farbe, btn);
+      }
+    } catch(e){}
+  });
+
+  updateDots();
+});
+
+// ===== EINORDNUNGSAUFGABE (Raum 1) =====
+const einordnungWahl = {};
+function waehleEinordnung(id, btn, wahl) {
+  einordnungWahl[id] = wahl;
+  const item = document.getElementById(id);
+  item.querySelectorAll('.einordnung-btn').forEach(b => b.classList.remove('gewaehlt'));
+  btn.classList.add('gewaehlt');
+  try { localStorage.setItem('sim_ei_'+id, wahl); } catch(e){}
+}
+function werteEinordnungAus() {
+  const ids = ['ei1','ei2','ei3','ei4','ei5','ei6'];
+  let alleBeantwortet = true;
+  ids.forEach(id => {
+    if (!einordnungWahl[id]) { alleBeantwortet = false; }
+  });
+  if (!alleBeantwortet) {
+    alert('Bitte wähle bei jeder Aussage eine Antwort aus, bevor du auswertest.');
+    return;
+  }
+  ids.forEach(id => {
+    const item = document.getElementById(id);
+    const richtig = item.dataset.richtig;
+    const geg = einordnungWahl[id];
+    item.querySelectorAll('.einordnung-btn').forEach(btn => {
+      const map = { 'KL':'Konzentrationslager', 'SGL':'Strafgefangenenlager', 'Beide':'Beide' };
+      const btnWahl = btn.textContent.trim();
+      btn.classList.remove('gewaehlt');
+      if (btnWahl === map[richtig]) btn.classList.add('richtig');
+      if (btnWahl === map[geg] && geg !== richtig) btn.classList.add('falsch');
+    });
+    item.classList.add('geprueft');
+  });
+}
+
+// Bio-Schritt speichern wenn Weiter geklickt
+const origReveal = window.revealNext;
+window.revealNext = function(bio, total) {
+  origReveal(bio, total);
+  try { localStorage.setItem('sim_bio_step_'+bio, bioStep[bio]); } catch(e){}
+};
+</script>
+</body>
+</html>
